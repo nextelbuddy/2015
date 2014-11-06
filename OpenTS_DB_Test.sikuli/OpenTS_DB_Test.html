@@ -1,0 +1,100 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>OpenTS_DB_Test.sikuli\OpenTS_DB_Test.sikuli</h2> <a href="OpenTS_DB_Test.sikuli\OpenTS_DB_Test.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">def</span> open_ts():
+    App.open(<span class="str">"C:\TSSHARE\Timeslips 2014\Timeslip.exe"</span>)
+    <span class="skw">wait</span>(<img src="isisthedatet-1.png" />)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="TimesipsToda-1.png" />)
+    <span class="skw">type</span>(<span class="str">"f"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"o"</span>)
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">find</span>(<img src="minps.png" />)
+    <span class="skw">type</span>(<span class="str">"a"</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    paste(<img src="1348684767545.png" />, <span class="str">'c:\\tsshare\\timeslips 2014\Original System DB 2013'</span>)
+    <span class="skw">click</span>(<img src="Open.png" />)
+    <span class="skw">doubleClick</span>(Pattern(<img src="DATA01.png" />).similar(<span class="dig">0.84</span>))
+    <span class="skw">doubleClick</span>(Pattern(<img src="MAINDB.png" />).similar(<span class="dig">0.81</span>))
+    waitVanish(<img src="TimesipsToda.png" />)
+    <span class="skw">click</span>(<img src="LGettingStar-1.png" />)
+    wheel(WHEEL_DOWN, <span class="dig">7</span>)
+    <span class="skw">click</span>(Pattern(<img src="SRobertson-2.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">click</span>(<img src="Finish.png" />)
+    waitVanish(<img src="SelectTimeke.png" />)
+    <span class="skw">wait</span>(<img src="TimesipsToda-2.png" />)
+</pre>
+</body>
+</html>

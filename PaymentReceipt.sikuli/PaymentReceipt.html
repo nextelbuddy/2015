@@ -1,0 +1,423 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>PaymentReceipt.sikuli\PaymentReceipt.sikuli</h2> <a href="PaymentReceipt.sikuli\PaymentReceipt.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> shutil
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+<span class="kw">import</span> datetime
+startTime = datetime.datetime.now()
+<span class="kw">import</span> os
+<span class="kw">import</span> TestLogFile
+
+
+
+
+
+cDefPayText = <span class="str">'A payment of [Value] was applied to your balance on [Transaction Date].\n\nThank you for your business,\n[Firm Name]'</span>
+cDefRevPayText = <span class="str">'Your payment dated [Transaction Date] of [Value] was reversed. Please contact us at your earliest convenience.\n\nThank you for your business,\n[Firm Name]'</span>
+cDefPfaText = <span class="str">'A payment of [Value] was applied from your funds account to your balance on [Transaction Date].\n\nThank you for your business,\n[Firm Name]'</span>
+cDefPtaText = <span class="str">'A payment of [Value] was applied to your funds account on [Transaction Date].\n\nThank you for your business,\n[Firm Name]'</span>
+
+cDefPaySubj = <span class="str">'Thank you for your payment'</span>
+cDefRevPaySubj = <span class="str">'A payment was reversed'</span>
+cDefPfaSubj = <span class="str">'Money was transferred from your account'</span>
+cDefPtaSubj = <span class="str">'Money was deposited into your account'</span>
+
+
+
+cCustomPayBody1 = <span class="str">'Test Payment description for [Nickname 1]\n\nThank You,\n[Firm Name]'</span>
+cCustomRevPayBody1 = <span class="str">'Test Reverse Payment description for [Nickname 1]\n\nThank You,\n[Firm Name]'</span>
+cCustomPfaBody1 = <span class="str">'Test Payment From Account description for [Nickname 1]\n\nThank You,\n[Firm Name]'</span>
+cCustomPtaBody1 = <span class="str">'Test Payment To Account description for [Nickname 1]\n\nThank You,\n[Firm Name]'</span>
+
+
+cCustomPaySubject1 = <span class="str">'Test Payment Subject'</span>
+cCustomRevPaySubject1 = <span class="str">'Test Reverse Payment Subject'</span>
+cCustomPfaSubject1 = <span class="str">'Test Payment From Account Subject'</span>
+cCustomPtaSubject1 = <span class="str">'Test Payment To Account Subject'</span>
+
+cPayDataToken = <span class="str">'[Firm Name][Firm Address Line 1][Firm Address Line 2][Firm City, State Zip]'</span> +
+                <span class="str">'[Firm Other][Firm Name/Address: Standard][Firm Name/Address: w/o commas]'</span> +
+                <span class="str">'[Firm Address: Standard][Firm Address: w/o commas][Firm Phone 1][Firm Phone 2]'</span> +
+                <span class="str">'[Firm Fax 1][Firm Fax 2][Firm Email][Firm Website][Firm Custom 1][Firm Custom 2]'</span> +
+                <span class="cmt">#'[Today''''s Date][Nickname 1][Nickname 2][Client Name][Client Address Line 1]' + 
+</span>                <span class="str">'[Client Address Line 2][Client Address Line 3][Client City][Client State]'</span> +
+                <span class="str">'[Client Zip][Client City, State Zip][Client Country]'</span> +
+                <span class="str">'[Client Name/Address: Standard][Client Name/Address: w/o commas]'</span> +
+                <span class="str">'[Client Name/Address: USPS Style][Client Address][Client Other Address Line 1]'</span> +
+                <span class="str">'[Client Other Address Line 2][Client Other Address Line 3][Client Other City]'</span> +
+                <span class="str">'[Client Other State][Client Other Zip][Client Other City, State Zip]'</span> +
+                <span class="str">'[Client Other Country][Client Name/Other Address: Standard]'</span> +
+                <span class="str">'[Client Name/Other Address: w/o commas][Client Name/Other Address: USPS Style]'</span> +
+                <span class="str">'[Client Other Address][Client Phone][Client Fax][Client Home][Client Other]'</span> +
+                <span class="str">'[Email Address][CC Address][Custom Custom Date][Custom Custom Hours]'</span> +
+                <span class="str">'[Custom Custom List][Custom Custom Money][Custom Custom Number]'</span> +
+                <span class="str">'[Custom Custom Percent][Custom Custom Text][Custom Custom Timekeep][Balance]'</span> +
+                <span class="str">'[Balance for Current Period][Balance for Period 1][Balance for Period 2]'</span> +
+                <span class="str">'[Balance for Period 3][Balance for Period 4][Balance for Period 5]'</span> +
+                <span class="str">'[Balance for Period 6][Unapplied Balance][Last Bill Date][Transaction ID]'</span> +
+                <span class="str">'[Transaction Date][Value][Check Number][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type]'</span>
+
+cRevPayDataToken = <span class="str">'[Firm Name][Firm Address Line 1][Firm Address Line 2][Firm City, State Zip]'</span> +
+                <span class="str">'[Firm Other][Firm Name/Address: Standard][Firm Name/Address: w/o commas]'</span> +
+                <span class="str">'[Firm Address: Standard][Firm Address: w/o commas][Firm Phone 1][Firm Phone 2]'</span> +
+                <span class="str">'[Firm Fax 1][Firm Fax 2][Firm Email][Firm Website][Firm Custom 1][Firm Custom 2]'</span> +
+                <span class="cmt">#'[Today''''s Date][Nickname 1][Nickname 2][Client Name][Client Address Line 1]' + 
+</span>                <span class="str">'[Client Address Line 2][Client Address Line 3][Client City][Client State]'</span> +
+                <span class="str">'[Client Zip][Client City, State Zip][Client Country]'</span> +
+                <span class="str">'[Client Name/Address: Standard][Client Name/Address: w/o commas]'</span> +
+                <span class="str">'[Client Name/Address: USPS Style][Client Address][Client Other Address Line 1]'</span> +
+                <span class="str">'[Client Other Address Line 2][Client Other Address Line 3][Client Other City]'</span> +
+                <span class="str">'[Client Other State][Client Other Zip][Client Other City, State Zip]'</span> +
+                <span class="str">'[Client Other Country][Client Name/Other Address: Standard]'</span> +
+                <span class="str">'[Client Name/Other Address: w/o commas][Client Name/Other Address: USPS Style]'</span> +
+                <span class="str">'[Client Other Address][Client Phone][Client Fax][Client Home][Client Other]'</span> +
+                <span class="str">'[Email Address][CC Address][Custom Custom Date][Custom Custom Hours]'</span> +
+                <span class="str">'[Custom Custom List][Custom Custom Money][Custom Custom Number]'</span> +
+                <span class="str">'[Custom Custom Percent][Custom Custom Text][Custom Custom Timekeep][Balance]'</span> +
+                <span class="str">'[Balance for Current Period][Balance for Period 1][Balance for Period 2]'</span> +
+                <span class="str">'[Balance for Period 3][Balance for Period 4][Balance for Period 5]'</span> +
+                <span class="str">'[Balance for Period 6][Unapplied Balance][Last Bill Date][Transaction ID]'</span> +
+                <span class="str">'[Transaction Date][Value][Check Number][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type][Payment Type]'</span> +
+                <span class="str">'[Payment Type][Payment Type][Payment Type][Payment Type]'</span>
+
+cPfaDataToken = <span class="str">'[Firm Name][Firm Address Line 1][Firm Address Line 2]'</span> +
+                <span class="str">'[Firm City, State Zip][Firm Other][Firm Name/Address: Standard]'</span> +
+                <span class="str">'[Firm Name/Address: w/o commas][Firm Address: Standard]'</span> +
+                <span class="str">'[Firm Address: w/o commas][Firm Phone 1][Firm Phone 2][Firm Fax 1]'</span> +
+                <span class="str">'[Firm Fax 2][Firm Email][Firm Website][Firm Custom 1][Firm Custom 2]'</span> +
+                <span class="cmt">#'[Today''''s Date][Nickname 1][Nickname 2][Client Name]' + 
+</span>                <span class="str">'[Client Address Line 1][Client Address Line 2][Client Address Line 3]'</span> +
+                <span class="str">'[Client City][Client State][Client Zip][Client City, State Zip]'</span> +
+                <span class="str">'[Client Country][Client Name/Address: Standard]'</span> +
+                <span class="str">'[Client Name/Address: w/o commas][Client Name/Address: USPS Style]'</span> +
+                <span class="str">'[Client Address][Client Other Address Line 1]'</span> +
+                <span class="str">'[Client Other Address Line 2][Client Other Address Line 3]'</span> +
+                <span class="str">'[Client Other City][Client Other State][Client Other Zip]'</span> +
+                <span class="str">'[Client Other City, State Zip][Client Other Country]'</span> +
+                <span class="str">'[Client Name/Other Address: Standard]'</span> +
+                <span class="str">'[Client Name/Other Address: w/o commas]'</span> +
+                <span class="str">'[Client Name/Other Address: USPS Style][Client Other Address]'</span> +
+                <span class="str">'[Client Phone][Client Fax][Client Home][Client Other][Email Address]'</span> +
+                <span class="str">'[CC Address][Custom Custom Date][Custom Custom Hours][Custom Custom List]'</span> +
+                <span class="str">'[Custom Custom Money][Custom Custom Number][Custom Custom Percent]'</span> +
+                <span class="str">'[Custom Custom Text][Custom Custom Timekeep][Balance]'</span> +
+                <span class="str">'[Balance for Current Period][Balance for Period 1][Balance for Period 2]'</span> +
+                <span class="str">'[Balance for Period 3][Balance for Period 4][Balance for Period 5]'</span> +
+                <span class="str">'[Balance for Period 6][Unapplied Balance][Last Bill Date][Transaction ID]'</span> +
+                <span class="str">'[Transaction Date][Value][Check Number][Funds Account Name]'</span> +
+                <span class="str">'[Funds Account Applies To][Funds Account Balance]'</span> +
+                <span class="str">'[Funds Account Auto Pay New Charges][Funds Account Replenish Minimum]'</span> +
+                <span class="str">'[Funds Account Replenish To][Funds Account Bill Format Style][Bank Name]'</span> +
+                <span class="str">'[Bank Account Applies To][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type]['</span>
+
+cPtaDataToken = <span class="str">'[Firm Name][Firm Address Line 1][Firm Address Line 2]'</span> +
+                <span class="str">'[Firm City, State Zip][Firm Other][Firm Name/Address: Standard]'</span> +
+                <span class="str">'[Firm Name/Address: w/o commas][Firm Address: Standard]'</span> +
+                <span class="str">'[Firm Address: w/o commas][Firm Phone 1][Firm Phone 2][Firm Fax 1]'</span> +
+                <span class="str">'[Firm Fax 2][Firm Email][Firm Website][Firm Custom 1][Firm Custom 2]'</span> +
+                <span class="cmt">#'[Today''''s Date][Nickname 1][Nickname 2][Client Name]' + 
+</span>                <span class="str">'[Client Address Line 1][Client Address Line 2][Client Address Line 3]'</span> +
+                <span class="str">'[Client City][Client State][Client Zip][Client City, State Zip]'</span> +
+                <span class="str">'[Client Country][Client Name/Address: Standard]'</span> +
+                <span class="str">'[Client Name/Address: w/o commas][Client Name/Address: USPS Style]'</span> +
+                <span class="str">'[Client Address][Client Other Address Line 1]'</span> +
+                <span class="str">'[Client Other Address Line 2][Client Other Address Line 3]'</span> +
+                <span class="str">'[Client Other City][Client Other State][Client Other Zip]'</span> +
+                <span class="str">'[Client Other City, State Zip][Client Other Country]'</span> +
+                <span class="str">'[Client Name/Other Address: Standard]'</span> +
+                <span class="str">'[Client Name/Other Address: w/o commas]'</span> +
+                <span class="str">'[Client Name/Other Address: USPS Style][Client Other Address]'</span> +
+                <span class="str">'[Client Phone][Client Fax][Client Home][Client Other][Email Address]'</span> +
+                <span class="str">'[CC Address][Custom Custom Date][Custom Custom Hours][Custom Custom List]'</span> +
+                <span class="str">'[Custom Custom Money][Custom Custom Number][Custom Custom Percent]'</span> +
+                <span class="str">'[Custom Custom Text][Custom Custom Timekeep][Balance]'</span> +
+                <span class="str">'[Balance for Current Period][Balance for Period 1][Balance for Period 2]'</span> +
+                <span class="str">'[Balance for Period 3][Balance for Period 4][Balance for Period 5]'</span> +
+                <span class="str">'[Balance for Period 6][Unapplied Balance][Last Bill Date][Transaction ID]'</span> +
+                <span class="str">'[Transaction Date][Value][Check Number][Funds Account Name]'</span> +
+                <span class="str">'[Funds Account Applies To][Funds Account Balance]'</span> +
+                <span class="str">'[Funds Account Auto Pay New Charges][Funds Account Replenish Minimum]'</span> +
+                <span class="str">'[Funds Account Replenish To][Funds Account Bill Format Style][Bank Name]'</span> +
+                <span class="str">'[Bank Account Applies To][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type][Bank Account Type]'</span> +
+                <span class="str">'[Bank Account Type][Bank Account Type][Bank Account Type]['</span>
+
+
+
+
+
+
+<span class="kw">def</span> Set_Data_Token():
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="PaymentRever.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">4</span>):
+        <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+        <span class="skw">type</span>(Key.DELETE)
+        <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+        <span class="skw">wait</span>(<img src="groupllhlll.png" />, <span class="dig">30</span>)
+        <span class="skw">type</span>(Key.TAB)
+        <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">74</span>):
+            <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">74</span>):
+                <span class="skw">type</span>(Key.DOWN)
+            <span class="skw">type</span>(Key.ENTER)
+            waitVanish(<img src="group.png" />)
+        <span class="skw">type</span>(Key.F6)
+
+
+<span class="kw">def</span> Test_Token(pIndex, pText, pSubject):
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(<img src="PaymentRever-1.png" />, <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, pIndex):
+        <span class="skw">type</span>(Key.F6)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.CTRL)
+    cb = Env.getClipboard()
+    bodyok = cb == pText
+    TestLogFile.Log_Result(bodyok, <span class="str">'BODY '</span> + str(pIndex))
+
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.CTRL)
+    cb = Env.getClipboard()
+    subjectok = cb == pSubject
+    TestLogFile.Log_Result(subjectok, <span class="str">'SUBJECT '</span> + str(pIndex))
+    <span class="kw">if</span> bodyok <span class="kw">and</span> subjectok:
+        <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">return</span> bodyok <span class="kw">and</span> subjectok
+
+
+
+<span class="kw">def</span> Set_Default_Values():
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="PaymentRever.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">4</span>):
+
+        <span class="skw">type</span>(<span class="str">'d'</span>, KeyModifier.ALT)
+        <span class="skw">wait</span>(<img src="Thiswillrese.png" />, <span class="dig">30</span>)
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+        waitVanish(<img src="Thiswillrese.png" />)
+        <span class="skw">type</span>(Key.F6)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">type</span>(Key.ENTER)
+
+
+
+
+<span class="kw">def</span> Test_Receipt(pTestName, pIndex, pText, pSubject):
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(<img src="PaymentRever-1.png" />, <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, pIndex):
+        <span class="skw">type</span>(Key.F6)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.CTRL)
+    cb = Env.getClipboard()
+    bodyok = cb == pText
+    TestLogFile.Log_Result(bodyok, pTestName + <span class="str">' BODY '</span> + str(pIndex))
+
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.CTRL)
+    cb = Env.getClipboard()
+    subjectok = cb == pSubject
+    TestLogFile.Log_Result(subjectok, <span class="str">'SUBJECT '</span> + str(pIndex))
+    <span class="kw">if</span> bodyok <span class="kw">and</span> subjectok:
+        <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">return</span> bodyok <span class="kw">and</span> subjectok
+
+
+
+
+<span class="kw">def</span> Set_Custom_Receipt(pIndex, pNewText, pNewSubject):
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="PaymentRever.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, pIndex):
+        <span class="skw">type</span>(Key.F6)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    paste(pNewText)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    paste(pNewSubject)
+    <span class="skw">type</span>(Key.ENTER)
+
+
+
+
+
+<span class="kw">def</span> Test_Default_Receipt():
+    <span class="kw">if</span> Test_Receipt(<span class="str">'Default 1'</span>, <span class="dig">1</span>, cDefPayText, cDefPaySubj) == True:
+        <span class="kw">if</span> Test_Receipt(<span class="str">'Default 2'</span>, <span class="dig">2</span>, cDefRevPayText, cDefRevPaySubj) == True:
+            <span class="kw">if</span> Test_Receipt(<span class="str">'Default 3'</span>, <span class="dig">3</span>, cDefPfaText,cDefPfaSubj) == True:
+                Test_Receipt(<span class="str">'Default 4'</span>, <span class="dig">4</span>, cDefPtaText, cDefPtaSubj)
+
+
+
+<span class="kw">def</span> Test_Custom_Receipt():
+    Set_Custom_Receipt(<span class="dig">1</span>, cCustomPayBody1, cCustomPaySubject1)
+    <span class="kw">if</span> Test_Receipt(<span class="str">'Custom 1'</span>, <span class="dig">1</span>, cCustomPayBody1, cCustomPaySubject1) == True:
+        Set_Custom_Receipt(<span class="dig">2</span>, cCustomRevPayBody1, cCustomRevPaySubject1)
+        <span class="kw">if</span> Test_Receipt(<span class="str">'Custom 2'</span>, <span class="dig">2</span>, cCustomRevPayBody1, cCustomRevPaySubject1) == True:
+            Set_Custom_Receipt(<span class="dig">3</span>, cCustomPfaBody1, cCustomPfaSubject1)
+            <span class="kw">if</span> Test_Receipt(<span class="str">'Custom 3'</span>, <span class="dig">3</span>, cCustomPfaBody1, cCustomPfaSubject1) == True:
+                Set_Custom_Receipt(<span class="dig">4</span>, cCustomPtaBody1, cCustomPtaSubject1)
+                Test_Receipt(<span class="str">'Custom 4'</span>, <span class="dig">4</span>, cCustomPtaBody1, cCustomPtaSubject1)
+
+
+<span class="kw">def</span> Test_DataToken_Receipt():
+    Add_All_Data_Token()
+    <span class="kw">if</span> Test_Receipt(<span class="str">'DataToken 1'</span>, <span class="dig">1</span>, cPayDataToken, <span class="str">'Data Token Test'</span>) == True:
+        <span class="kw">if</span> Test_Receipt(<span class="str">'DataToken 2'</span>, <span class="dig">2</span>, cRevPayDataToken, <span class="str">'Data Token Test'</span>) == True:
+            <span class="kw">if</span> Test_Receipt(<span class="str">'DataToken 3'</span>, <span class="dig">3</span>, cPfaDataToken, <span class="str">'Data Token Test'</span>) == True:
+                Test_Receipt(<span class="str">'DataToken 4'</span>, <span class="dig">4</span>, cPtaDataToken, <span class="str">'Data Token Test'</span>)
+
+
+
+<span class="kw">def</span> Add_All_Data_Token():
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="PaymentRever-2.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">4</span>):
+        add_all_receipt()
+    <span class="skw">type</span>(Key.TAB + Key.ENTER)
+
+
+<span class="kw">def</span> add_all_receipt():
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">100</span>):
+        Set_Data_Token(x)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'Data Token Test'</span>)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="skw">type</span>(Key.F6)
+
+
+<span class="kw">def</span> Set_Data_Token(pIndex):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="groupllhlll-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, pIndex):
+        <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="group-1.png" />)
+
+
+
+
+<span class="kw">def</span> payment_receipt():
+    Test_Default_Receipt()
+    Test_Custom_Receipt()
+    Test_DataToken_Receipt()
+    Set_Default_Values()
+    Test_Default_Receipt()
+
+
+
+
+
+<span class="cmt">#Set_Default_Values()
+</span><span class="cmt">#Test_Default_Receipt()
+</span><span class="cmt">#Test_Custom_Receipt()
+</span><span class="cmt">#Add_All_Data_Token()
+</span><span class="cmt">#payment_receipt()</span>
+</pre>
+</body>
+</html>

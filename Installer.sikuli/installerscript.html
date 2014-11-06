@@ -1,0 +1,200 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Installer.sikuli\Installer.sikuli</h2> <a href="Installer.sikuli\Installer.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#this is a script to install any build of timeslips from the network build machine
+</span>
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">import</span> CreateTSDB
+<span class="kw">import</span> OpenTS_DB_Test
+<span class="kw">import</span> CreateTimeSlipNewComplete
+<span class="kw">import</span> CreateExpenseSlipNewComplete
+<span class="kw">import</span> RestorePrefs
+<span class="kw">import</span> ClearSlips
+<span class="kw">import</span> SlipAssert
+<span class="kw">import</span> CreateClient
+<span class="kw">import</span> CreateTask
+<span class="kw">import</span> CreateExpense
+<span class="kw">import</span> CreateReference
+<span class="kw">import</span> DBSetup
+<span class="kw">import</span> SlipsExpandedFunctionalityComplete
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+
+
+
+
+
+<span class="cmt">#we will structure this script so that we always browse out to the build path for the
+</span><span class="cmt">#current year. 
+</span><span class="cmt">#Make sure in pop up prompts that you input the proper year as a 4 digit number, build as "Build XX.X.X.XX
+</span><span class="cmt">#and the proper serial # for that version
+</span>
+tsVersion = <span class="skw">input</span>(<span class="str">"Enter your version ie.. 2013, 2014 etc:"</span>)
+tsBuild = <span class="skw">input</span>(<span class="str">"Enter your build ie..Build 22.0.0.76:"</span>)
+tsSerial = <span class="skw">input</span>(<span class="str">"Enter your serial# ie..13800000:"</span>)
+
+<span class="kw">def</span> ts_installer():
+        <span class="cmt">#section below browses out to network path on build machine and starts coe generator as well as launches the build you specify
+</span>    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+    <span class="skw">wait</span>(Pattern(<img src="Typethenameo.png" />).similar(<span class="dig">0.86</span>), <span class="dig">60</span>)
+    paste(<span class="str">r'\\gaqtsbuild01\TSStorage\Builds\\'</span> +tsVersion)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="qaqtsbuid01T.png" />).similar(<span class="dig">0.94</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(<span class="str">"utilities"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Utilities.png" />).similar(<span class="dig">0.96</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="Utilities-2.png" />).similar(<span class="dig">0.96</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(<span class="str">"tscodes"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="IQTSCOdesexe.png" />).similar(<span class="dig">0.97</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="SageTimeslip-1.png" />).similar(<span class="dig">0.84</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(Pattern(<img src="Createaprodu.png" />).similar(<span class="dig">0.89</span>))
+    <span class="skw">type</span>(Key.SPACE, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"n"</span>)
+    waitVanish(Pattern(<img src="SageTimeslip-1.png" />).similar(<span class="dig">0.84</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    <span class="skw">wait</span>(<span class="dig">1.5</span>)
+    <span class="skw">type</span>(tsBuild)
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="Setupexe.png" />).similar(<span class="dig">0.82</span>))
+    <span class="skw">type</span>(<span class="str">"setup"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="3Setupexe-1.png" />).similar(<span class="dig">0.89</span>))
+    <span class="skw">type</span>(Key.ENTER)
+        <span class="cmt">#installer launches here
+</span>    <span class="skw">wait</span>(Pattern(<img src="SageTlmeslip.png" />).similar(<span class="dig">0.84</span>), <span class="dig">120</span>)
+    <span class="skw">click</span>(Pattern(<img src="InstallSageT-1.png" />).similar(<span class="dig">0.81</span>), <span class="dig">120</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Welcomelnthe.png" />).similar(<span class="dig">0.84</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="LicenseAgree.png" />).similar(<span class="dig">0.77</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(<span class="str">"a"</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect.png" />).similar(<span class="dig">0.84</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(<span class="str">"p"</span>, KeyModifier.ALT)
+    paste(<span class="str">r'c:\tssmoketest\\'</span> +tsVersion)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Pleaseselect.png" />).similar(<span class="dig">0.84</span>))
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-1.png" />).similar(<span class="dig">0.81</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"s"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(tsSerial)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"i"</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Beforecontin.png" />):
+        <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Thesetupprog.png" />).similar(<span class="dig">0.84</span>))
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-2.png" />).similar(<span class="dig">0.98</span>), <span class="dig">300</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-3.png" />).similar(<span class="dig">0.83</span>), <span class="dig">60</span>)
+    <span class="skw">type</span>(<span class="str">"d"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"u"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"f"</span>, KeyModifier.ALT)
+    waitVanish(Pattern(<img src="Pleaseselect-3.png" />).similar(<span class="dig">0.83</span>))
+        <span class="cmt">#section below is to close all items opened during installation
+</span>    keyDown(Key.CTRL)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.ESC)
+    keyUp(Key.CTRL)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(Pattern(<img src="ADPIICBUOTTS.png" />).similar(<span class="dig">0.77</span>), <span class="dig">120</span>)
+    <span class="skw">rightClick</span>(Pattern(<img src="Build.png" />).similar(<span class="dig">0.96</span>))
+    onAppear(Pattern(<img src="SwitchToBrin.png" />).similar(<span class="dig">0.79</span>), <span class="skw">click</span>(Pattern(<img src="EndTask.png" />).similar(<span class="dig">0.86</span>)))
+    waitVanish(Pattern(<img src="Build.png" />).similar(<span class="dig">0.96</span>), <span class="dig">60</span>)
+    <span class="skw">rightClick</span>(Pattern(<img src="L9sew.png" />).similar(<span class="dig">0.86</span>))
+    onAppear(Pattern(<img src="SwitchToBrin-1.png" />).similar(<span class="dig">0.85</span>), <span class="skw">click</span>(Pattern(<img src="EndTask-1.png" />).similar(<span class="dig">0.83</span>)))
+    waitVanish(Pattern(<img src="L9sew.png" />).similar(<span class="dig">0.86</span>), <span class="dig">60</span>)
+    <span class="skw">rightClick</span>(Pattern(<img src="Tscodes.png" />).similar(<span class="dig">0.83</span>))
+    onAppear(Pattern(<img src="SwitchToBrin-2.png" />).similar(<span class="dig">0.86</span>), <span class="skw">click</span>(Pattern(<img src="EndTask-1.png" />).similar(<span class="dig">0.83</span>)))
+    onVanish(Pattern(<img src="Tscodes-1.png" />).similar(<span class="dig">0.83</span>), <span class="skw">type</span>(Key.F4, KeyModifier.ALT))
+
+
+ts_installer()
+</pre>
+</body>
+</html>

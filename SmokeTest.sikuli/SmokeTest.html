@@ -1,0 +1,1252 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>SmokeTest.sikuli\SmokeTest.sikuli</h2> <a href="SmokeTest.sikuli\SmokeTest.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#this is a script for the Timeslips 2 hour smoke test
+</span>
+<span class="cmt">#this script will pull data for importing a slip and client into timeslips
+</span><span class="cmt">#make sure that your slip archive file and client export data are in C:\sikuli scripts\data
+</span><span class="cmt">#otherwise the script will fail to get that information
+</span><span class="cmt">#the name of these files are 'SmoketestSlipArchive' and 'SmokeTestClientExport'
+</span>
+<span class="cmt">#this script will pull an explore database in 2013 version to test cnoversion diaogs
+</span><span class="cmt">#make sure this database is the C:\sikuli scripts\data folder named 'smoketestconversion'
+</span>
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> mySettings
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="cmt">#import Alpha_Beta
+</span><span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+<span class="kw">import</span> Installer
+<span class="kw">import</span> CreateTSDB
+<span class="kw">import</span> OpenTS_DB_Test
+<span class="kw">import</span> CreateTimeSlipNew
+<span class="kw">import</span> CreateExpenseSlipNew
+<span class="kw">import</span> RestorePrefs
+<span class="kw">import</span> ClearSlips
+<span class="kw">import</span> SlipAssert
+<span class="kw">import</span> CreateClient
+<span class="kw">import</span> CreateTimekeeper
+<span class="kw">import</span> CreateTask
+<span class="kw">import</span> CreateExpense
+<span class="kw">import</span> CreateReference
+<span class="kw">import</span> CreateCustom
+<span class="kw">import</span> CreateTransactions
+<span class="kw">import</span> CreateBank
+<span class="kw">import</span> CreateFundTrans
+<span class="kw">import</span> DBSetup
+<span class="kw">import</span> SlipsExpandedFunctionalityComplete
+<span class="kw">import</span> DBChecks
+<span class="kw">import</span> ImportClient
+<span class="kw">import</span> ImportSlips
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> shutil
+<span class="kw">import</span> <span class="dig">2014</span>SR1DefectFixes
+<span class="kw">import</span> Alerts
+<span class="kw">import</span> SlipsList
+<span class="kw">import</span> EmailTestResults
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+startTime = datetime.datetime.now()
+
+
+<span class="cmt"># setup logging and folder paths
+</span><span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Logs'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Logs'</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Reports'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Reports'</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Backups'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Backups'</span>)
+
+<span class="cmt">#--------------------------------------------------------#
+</span>
+logging.basicConfig(filename=os.path.join(<span class="str">r'C:\tssmoketest'</span>, <span class="str">'Logs'</span>, startTime.strftime(<span class="str">'SmokeTestLog %Y_%m_%d %H_%M_%S.log'</span>)), level=logging.DEBUG, format=<span class="str">'%(message)s'</span>, filemode=<span class="str">'w'</span>)
+<span class="cmt">#logging.basicConfig(filename=os.path.join(r"C:\tssmoketest", 'Logs', "SmokeTestLog.log"), level=logging.DEBUG, format='%(message)s', filemode='w')
+</span><span class="cmt"># Level = DEBUG, INFO, WARNING, ERROR, CRITICAL
+</span>
+<span class="cmt">#--------------------------------------------------------#
+</span>
+<span class="cmt"># stamp start time
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(startTime.strftime(<span class="str">"Started at: %Y-%m-%d %H:%M:%S"</span>))
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+
+
+
+
+<span class="str">"""
+#--------------------------------------------------------#
+logging.debug('- - - - - - - - - - - - - - -')
+    #first part of smoke test is deleting prior installation
+logging.debug(' ')
+logging.debug('Timeslips_Removal_Begin')
+if os.path.exists(os.path.join(r'C:\tssmoketest', Settings.Version)):
+    shutil.rmtree(os.path.join(r'C:\tssmoketest', Settings.Version))
+logging.debug(' ')
+logging.debug('Timeslips_Removal_End')
+#--------------------------------------------------------#
+logging.debug('- - - - - - - - - - - - - - -')
+    #first part of smoke test is installation by calling the installer function
+logging.debug(' ')
+logging.debug('Timeslips_installer_Begin')
+
+
+if Settings.InstallPhase == Settings.tInstallPhaseE[0]:
+    Installer.alpha_beta_installer()
+elif Settings.InstallType == Settings.tInstallTypesE[1]:
+    Installer.single_installer()
+elif Settings.InstallType == Settings.tInstallTypesE[0]:
+    Installer.cd_installer()
+      
+
+
+    
+logging.debug(' ')
+logging.debug('Timeslips_installation_End')
+
+"""</span>
+
+
+
+    <span class="cmt">#Smoke test begins with verifying all applications with in Timeslips application folder open. 
+</span>    <span class="cmt">#MiniTS, Navedit, ProcEdit, StatAdmin, Timeslips, TSImport, TSTimer
+</span>    <span class="cmt">#these are the app instances we are defining below
+</span>
+
+minits = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"MiniTS.exe"</span>))
+navedit = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"navedit.exe"</span>))
+procedit = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"procedit.exe"</span>))
+statadmn = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"statadmn.exe"</span>))
+timeslip = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"timeslip.exe"</span>))
+tsimport = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"tsimport.exe"</span>))
+tcapture = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"timecapture"</span>, <span class="str">"timecapture.exe"</span>))
+
+    <span class="cmt">#defining our directory to use in certain lines.
+</span>dir = os.path.join(<span class="str">'c:'</span>, os.sep, <span class="str">'tssmoketest'</span>, Settings.Version)
+
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#creating our timeslips database to use for the smoketest
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Timeslips DB Creation Start'</span>)
+CreateTSDB.create_ts_db()
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Timeslips DB Creation End'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#in case prefs file is missing this will check and eat the error
+</span>DBChecks.checkFor_Preferror()
+
+<span class="cmt">#----------------------------------------#
+</span>waitVanish(Pattern(<img src="ezEEQZESlewQ.png" />).similar(<span class="dig">0.89</span>))
+
+
+
+    <span class="cmt">#Section below begins opening and closing all APPs installed by installer
+</span><span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Open all installed TS Apps Begin'</span>)
+logging.debug(<span class="str">'------------------'</span>)
+logging.debug(<span class="str">'----Open Mini TS'</span>)
+minits.open()
+<span class="skw">wait</span>(Pattern(<img src="Therearenoav.png" />).similar(<span class="dig">0.83</span>), <span class="dig">160</span>)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="liblHlP2LF1l.png" />).similar(<span class="dig">0.81</span>))
+
+<span class="skw">type</span>(Key.SPACE, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"x"</span>)
+<span class="skw">type</span>(<span class="str">"w"</span>, KeyModifier.CTRL)
+<span class="skw">type</span>(<span class="str">"h"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<img src="MiniTimeslip-1.png" />, <span class="dig">30</span>)
+<span class="kw">assert</span> exists(<img src="MiniTimeslip-1.png" />)
+<span class="skw">type</span>(<span class="str">"d"</span>)
+minits.close()
+waitVanish(<img src="EnteranExpen-1.png" />)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Mini TS Launched and closed with out issue'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch Navigation Editor'</span>)
+navedit.open()
+<span class="skw">wait</span>(<img src="QEIQIEQXI.png" />, <span class="dig">160</span>)
+<span class="skw">type</span>(Key.SPACE, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"x"</span>)
+<span class="skw">type</span>(<span class="str">"w"</span>, KeyModifier.CTRL)
+<span class="skw">type</span>(<span class="str">"h"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">assert</span> exists(<img src="NavigatorEdi.png" />)
+<span class="skw">type</span>(<span class="str">"d"</span>)
+waitVanish(<img src="NavigatorEdi.png" />)
+navedit.close()
+
+waitVanish(<img src="QEIQIEQXI.png" />)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Nav Editor launched and closed with out issue'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch Procedure Editor'</span>)
+procedit.open()
+<span class="skw">wait</span>(Pattern(<img src="UseTimeslips.png" />).similar(<span class="dig">0.80</span>), <span class="dig">160</span>)
+<span class="skw">type</span>(<span class="str">"c"</span>)
+<span class="skw">type</span>(<span class="str">"p"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">assert</span> exists(<img src="ProcedureEdi.png" />)
+<span class="skw">type</span>(<span class="str">"d"</span>)
+waitVanish(<img src="ProcedureEdi.png" />)
+procedit.close()
+
+waitVanish(<img src="PubiiiiVisib.png" />)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Procedure Editor launched and closed with out issue'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch Station Administrator'</span>)
+statadmn.open()
+<span class="skw">wait</span>(Pattern(<img src="Locationofse.png" />).similar(<span class="dig">0.88</span>), <span class="dig">160</span>)
+<span class="skw">type</span>(<span class="str">"h"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">assert</span> exists(<img src="StationAdmin.png" />)
+<span class="skw">type</span>(<span class="str">"d"</span>)
+waitVanish(<img src="StationAdmin.png" />)
+statadmn.close()
+
+waitVanish(Pattern(<img src="Locationofse.png" />).similar(<span class="dig">0.88</span>))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Station admin launched and closed with out issue'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch Timeslips'</span>)
+timeslip.open()
+<span class="skw">wait</span>(Pattern(<img src="aJxmz2MaaZE.png" />).similar(<span class="dig">0.89</span>), <span class="dig">160</span>)
+DBChecks.checkFor_Preferror()
+DBChecks.checkFor_BkuPopup()
+DBChecks.checkFor_BillingDate()
+DBChecks.checkFor_SPS()
+DBChecks.checkFor_PEP()
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="skw">type</span>(Key.SPACE, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"x"</span>)
+<span class="skw">type</span>(<span class="str">"w"</span>, KeyModifier.CTRL)
+<span class="skw">type</span>(<span class="str">"h"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">assert</span> exists(Pattern(<img src="1360963669806.png" />).similar(<span class="dig">0.82</span>))
+<span class="skw">type</span>(<span class="str">"d"</span>)
+waitVanish(Pattern(<img src="1360963669806.png" />).similar(<span class="dig">0.82</span>))
+timeslip.close()
+
+waitVanish(<img src="EnteranExpen-1.png" />)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Timeslips launched and closed with out issue'</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch TSImport'</span>)
+tsimport.open()
+<span class="skw">wait</span>(Pattern(<img src="EileIemplate.png" />).similar(<span class="dig">0.86</span>), <span class="dig">160</span>)
+<span class="skw">type</span>(<span class="str">"h"</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">"a"</span>)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="kw">assert</span> exists(Pattern(<img src="Import.png" />).similar(<span class="dig">0.87</span>))
+<span class="skw">type</span>(<span class="str">"d"</span>)
+waitVanish(Pattern(<img src="Import.png" />).similar(<span class="dig">0.86</span>))
+tsimport.close()
+
+waitVanish(Pattern(<img src="EileIemplate.png" />).similar(<span class="dig">0.86</span>))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----TSImport launched and closed with out issue'</span>)
+
+
+
+<span class="cmt">#----------------------------------------#
+</span><span class="kw">def</span> test_tcapture():
+    logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'----Launch Time capture application'</span>)
+    tcapture.open()
+    <span class="kw">if</span> exists(<img src="Youhaveanold.png" />, <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="Showthismess.png" />).similar(<span class="dig">0.87</span>), <span class="dig">20</span>):
+        <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="cunmnuSlwpsE.png" />, <span class="dig">20</span>)
+    <span class="cmt">#if exists("3-2.png", 0) #or exists("I-2.png", 0):
+</span>         <span class="cmt">#rightClick(getLastMatch())
+</span>    <span class="skw">rightClick</span>(<img src="cunmnuSlwpsE.png" />)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"a"</span>)
+    <span class="kw">assert</span> exists(<img src="ii-2.png" />)
+    <span class="skw">type</span>(<span class="str">"d"</span>)
+    waitVanish(<img src="ii-2.png" />)
+    tcapture.close()
+
+    waitVanish(<img src="cunmnuSlwpsE.png" />, <span class="dig">20</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'----Time capture launched and closed with out issue'</span>)
+
+<span class="kw">if</span> Settings.Version != Settings.tInstallTypesE[<span class="dig">0</span>]:
+    test_tcapture()
+
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#Section opens Timeslips and sets preferences and general settings
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launch TS and set preferences with general settings'</span>)
+timeslip.open()
+DBChecks.checkFor_Preferror()
+DBChecks.checkFor_BkuPopup()
+DBChecks.checkFor_BillingDate()
+DBChecks.checkFor_SPS()
+DBChecks.checkFor_PEP()
+<span class="skw">wait</span>(<img src="leibmaEEQSle.png" />, <span class="dig">60</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Restoring Default Prefs'</span>)
+RestorePrefs.restore_prefs()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Setup General Settings'</span>)
+DBSetup.db_setup()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="cmt">#----------------------------------------#
+</span>    <span class="cmt">#section begins creating basic Data
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'Creating Timeslips Data'</span>)
+<span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">2</span>):
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'- Create Timekeeper'</span>)
+    CreateTimekeeper.create_timekeeper(x)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'- Create Clients'</span>)
+    <span class="kw">if</span> Settings.Version &gt;= <span class="str">'2015'</span>:
+        CreateClient.new_create_client(x)
+    <span class="kw">elif</span>  Settings.Version &lt; <span class="str">'2015'</span>:
+        CreateClient.create_client(x)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'- Create Tasks'</span>)
+    CreateTask.create_task(x)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'- Create Expenses'</span>)
+    CreateExpense.create_expense(x)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Create Custom Fields'</span>)
+CreateCustom.create_customfields()
+<span class="skw">wait</span>(<span class="dig">2</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Create References'</span>)
+CreateReference.create_reference()
+<span class="skw">wait</span>(<span class="dig">2</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Clearing any previous slips'</span>)
+ClearSlips.clear_slips()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Timeslips'</span>)
+CreateTimeSlipNew.create_timeslip()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Expense slips'</span>)
+CreateExpenseSlipNew.create_expslip()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Expanded Slip Functionality'</span>)
+SlipsExpandedFunctionalityComplete.ts_expanded_functions()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Payments'</span>)
+CreateTransactions.create_payment()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Credits'</span>)
+CreateTransactions.create_credit()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Refunds'</span>)
+CreateTransactions.create_refund()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Bank Accounts'</span>)
+CreateBank.create_bank()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Creating Fund transactions'</span>)
+CreateFundTrans.create_fundtransaction()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+timeslip.close()
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Timeslips Closed'</span>)
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+<span class="cmt">#----------------------------------------#
+</span>    <span class="cmt">#this section is to test import client and slip data using TSIMPORT
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Importing Clients using TSimport'</span>)
+ImportClient.import_client()
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Importing slips using TSImport'</span>)
+ImportSlips.import_slips()
+
+<span class="cmt">#----------------------------------------#
+</span>    <span class="cmt">#This section begins verifying Bill Functions UI and everything should 
+</span>    <span class="cmt">#launch with out error
+</span>    <span class="cmt">#Billing assistant launch, launch client from BA, Launch FA, Set/Apply+ FA filters
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Opening Timeslips'</span>)
+timeslip.open()
+DBChecks.checkFor_Preferror()
+DBChecks.checkFor_BkuPopup()
+DBChecks.checkFor_BillingDate()
+DBChecks.checkFor_SPS()
+DBChecks.checkFor_PEP()
+<span class="skw">wait</span>(<img src="leibmaEEQSle.png" />, <span class="dig">60</span>)
+    <span class="cmt">#Billing Assistant
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Opening Billing Assistant'</span>)
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+keyUp(Key.SHIFT)
+<span class="kw">if</span> exists(Pattern(<img src="SelectwhichB.png" />).similar(<span class="dig">0.87</span>)):
+    <span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="BillingAssis.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Launching Client from Billing Assistant'</span>)
+<span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">6</span>):
+    TABFunction.tab(x)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<img src="InformationC.png" />, <span class="dig">90</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(<img src="InformationC.png" />)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="BillingAssis.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Billing assistant Closed'</span>)
+    <span class="cmt">#Firm Assistant
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launching Firm Assistant'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>)
+<span class="skw">wait</span>(Pattern(<img src="ClickUpdatew.png" />).similar(<span class="dig">0.94</span>), <span class="dig">90</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="InterestTota.png" />).similar(<span class="dig">0.86</span>), <span class="dig">90</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Applying Client filter'</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(Pattern(<img src="Usingfilters.png" />).similar(<span class="dig">0.91</span>), <span class="dig">90</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'c'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.SPACE)
+<span class="skw">wait</span>(Pattern(<img src="Youcanselect.png" />).similar(<span class="dig">0.92</span>))
+<span class="skw">type</span>(Key.F4)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Youcanselect.png" />).similar(<span class="dig">0.92</span>))
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+waitVanish(Pattern(<img src="Usingfilters.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="ClickUpdatew-1.png" />).similar(<span class="dig">0.89</span>))
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(Key.TAB)
+keyUp(Key.SHIFT)
+<span class="skw">type</span>(Key.ENTER)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Asserting Client filter applied correctly'</span>)
+<span class="kw">assert</span> exists(Pattern(<img src="YeYeEndDateD-1.png" />).similar(<span class="dig">0.90</span>))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- Closing Firm Assistant'</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="YeYeEndDateD-1.png" />).similar(<span class="dig">0.90</span>))
+
+<span class="cmt">#----------------------------------------#
+</span>    <span class="cmt">#This section begins the security portion of the smoke test
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Setting up Global Security, Enabling Security'</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'s'</span>)
+<span class="skw">type</span>(<span class="str">'g'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Usethesesett-2.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(<span class="str">'r'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+paste(<span class="str">'123456789'</span>)
+<span class="skw">type</span>(<span class="str">'e'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(Key.ENTER)
+onAppear(<img src="Yournewpassw-3.png" />, <span class="skw">type</span>(Key.ENTER))
+waitVanish(Pattern(<img src="Usethesesett-2.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">'----Setting up Security Settings, Defining TK Security'</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'s'</span>)
+<span class="skw">type</span>(<span class="str">'r'</span>)
+onAppear(Pattern(<img src="Pleaseentert-1.png" />).similar(<span class="dig">0.85</span>), paste(<span class="str">'123456789'</span>))
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="HerearetheTi-3.png" />).similar(<span class="dig">0.89</span>))
+<span class="skw">type</span>(<span class="str">'s. r'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<img src="Accessrights-1.png" />)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.ALT)
+paste(<span class="str">'987654321'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">'- Disabling all of Slip entry '</span>)
+<span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'sl'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.DELETE)
+onAppear(<img src="Uncheckingth-1.png" />, <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT))
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">'- Disabling all of AR Transactions'</span>)
+<span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'accounts'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.DELETE)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">'- Disabling all of Client name access'</span>)
+<span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'cli'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.DELETE)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+onAppear(Pattern(<img src="Yournewpassw-2.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(Key.ENTER))
+waitVanish(Pattern(<img src="SRobertsonNa-1.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+waitVanish(Pattern(<img src="HerearetheTi-2.png" />).similar(<span class="dig">0.81</span>))
+logging.debug(<span class="str">'- Begin Log out and Lock'</span>)
+<span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'l'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Password-1.png" />).similar(<span class="dig">0.89</span>), <span class="dig">120</span>)
+logging.debug(<span class="str">'- Logging back into TS DB'</span>)
+<span class="skw">type</span>(<span class="str">'s. '</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+paste(<span class="str">'987654321'</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="PasswordXXXX-1.png" />).similar(<span class="dig">0.85</span>))
+<span class="skw">wait</span>(<img src="lezEEQZESlew-1.png" />, <span class="dig">120</span>)
+logging.debug(<span class="str">'- Testing Slip list/entry access'</span>)
+<span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="Youdonothave-10.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Youdonothave-10.png" />)
+logging.debug(<span class="str">'- Testing Billing Assistant Access'</span>)
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+keyUp(Key.SHIFT)
+<span class="skw">wait</span>(<img src="Youdonothave-12.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Youdonothave-12.png" />)
+logging.debug(<span class="str">'- Testing AR Trans Access'</span>)
+<span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="Youdonothave-14.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+logging.debug(<span class="str">'- Testing Client name access'</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'i'</span>)
+<span class="skw">wait</span>(<img src="l4wlEUPBWTem-1.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+logging.debug(<span class="str">'- Test Open Client'</span>)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="Youdonothave-9.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Youdonothave-9.png" />)
+logging.debug(<span class="str">'- Test Edit Client'</span>)
+<span class="skw">type</span>(Key.DELETE, KeyModifier.CTRL)
+onAppear(<img src="Thiscommandw-1.png" />, <span class="skw">type</span>(<span class="str">'y'</span>))
+onAppear(Pattern(<img src="Thefollowing.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(<span class="str">'y'</span>))
+<span class="skw">wait</span>(<img src="Youdonothave-11.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Youdonothave-11.png" />)
+logging.debug(<span class="str">'- Test New Client'</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="Youdonothave-13.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Youdonothave-13.png" />)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(<img src="l4wlEUPBWTem-1.png" />)
+logging.debug(<span class="str">'- Disabling Security'</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'s'</span>)
+<span class="skw">type</span>(<span class="str">'g'</span>)
+onAppear(<img src="EntertheSupe-1.png" />, paste(<span class="str">'123456789'</span>))
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<img src="Usethesesett-3.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.DELETE)
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+keyUp(Key.SHIFT)
+<span class="skw">type</span>(Key.SPACE)
+<span class="skw">type</span>(Key.ENTER)
+<span class="kw">if</span> exists(<img src="TheSuperviso.png" />):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+waitVanish(Pattern(<img src="Usethesesett-3.png" />).similar(<span class="dig">0.91</span>))
+
+
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Generating Bills'</span>)
+logging.debug(<span class="str">'- Generate bills print to display'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="NameGenerate.png" />).similar(<span class="dig">0.90</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'c'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.SPACE)
+<span class="skw">wait</span>(Pattern(<img src="Youcanselect-1.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'silk'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.F4)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Youcanselect-1.png" />).similar(<span class="dig">0.92</span>))
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="Invoicesubmi-2.png" />, <span class="dig">30</span>)
+logging.debug(<span class="str">'- Closing Print to display'</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="Invoicesubmi-1.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+<span class="kw">if</span> exists(<img src="Youhavechang.png" />):
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+waitVanish(Pattern(<img src="NameGenerate.png" />).similar(<span class="dig">0.90</span>))
+
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Billing Reports'</span>)
+logging.debug(<span class="str">'- Testing Adding a default billing report'</span>)
+<span class="skw">type</span>(Key.F3, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="Welcometothe-3.png" />).similar(<span class="dig">0.89</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'gener'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+paste(<span class="str">'Generate Bills Copy'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Reportiscrea-3.png" />).similar(<span class="dig">0.89</span>))
+onAppear(Pattern(<img src="NameGenerate-11.png" />).similar(<span class="dig">0.95</span>), <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL))
+onAppear(Pattern(<img src="TypeGenerate-3.png" />).similar(<span class="dig">0.93</span>), <span class="skw">type</span>(Key.ENTER))
+waitVanish(Pattern(<img src="TypeGenerate-3.png" />).similar(<span class="dig">0.93</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="NameGenerate-11.png" />).similar(<span class="dig">0.95</span>))
+logging.debug(<span class="str">'- Open and run Prebill worksheet report'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'p'</span>)
+<span class="skw">wait</span>(Pattern(<img src="NamePrebiWor-4.png" />).similar(<span class="dig">0.86</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="SqQAAn10rri0.png" />).similar(<span class="dig">0.78</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="SqQAAn10rri0.png" />).similar(<span class="dig">0.78</span>))
+logging.debug(<span class="str">'- Generate bills'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+onAppear(Pattern(<img src="NameGenerate-13.png" />).similar(<span class="dig">0.85</span>), <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL))
+<span class="skw">wait</span>(<img src="Invoicesubmi-2.png" />, <span class="dig">30</span>)
+<span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">6</span>):
+    TABFunction.tab(x)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'pdf'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="11IIIII111In-3.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+paste(os.path.join(<span class="str">r"C:\tssmoketest"</span>, <span class="str">'Reports'</span>, <span class="str">"Bills for Proof.PDF"</span>))
+<span class="skw">type</span>(Key.ENTER)
+logging.debug(<span class="str">'- Placing bill in Proof stage'</span>)
+<span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-3.png" />).similar(<span class="dig">0.91</span>)):
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Billshavebee-5.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">click</span>(<img src="Lockbills.png" />)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Billshavebee-5.png" />).similar(<span class="dig">0.91</span>))
+<span class="kw">if</span> exists(Pattern(<img src="Selectwhichr-3.png" />).similar(<span class="dig">0.91</span>)):
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="NameGenerate-12.png" />).similar(<span class="dig">0.87</span>))
+logging.debug(<span class="str">'- Placing bill in Revision'</span>)
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+keyUp(Key.SHIFT)
+<span class="skw">wait</span>(Pattern(<img src="Proofstagebi-3.png" />).similar(<span class="dig">0.89</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">type</span>(Key.INSERT)
+<span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+onAppear(Pattern(<img src="Ifyouwanttoi-4.png" />).similar(<span class="dig">0.90</span>), <span class="skw">type</span>(<span class="str">'r'</span>, KeyModifier.ALT))
+<span class="skw">wait</span>(<img src="NewChargesBi-3.png" />, <span class="dig">30</span>)
+logging.debug(<span class="str">'- Clearing from Revision'</span>)
+<span class="skw">type</span>(Key.F6)
+<span class="skw">wait</span>(<img src="Revisionstag-7.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">type</span>(Key.INSERT)
+<span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+onAppear(Pattern(<img src="Doyouwanttoc-3.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(<span class="str">'y'</span>))
+waitVanish(Pattern(<img src="Doyouwanttoc-3.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+waitVanish(Pattern(<img src="Revisionstag-6.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">'- Generate Bills for Approval'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+onAppear(Pattern(<img src="NameGenerate-13.png" />).similar(<span class="dig">0.85</span>), <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL))
+<span class="skw">wait</span>(<img src="Invoicesubmi-2.png" />, <span class="dig">30</span>)
+<span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">6</span>):
+    TABFunction.tab(x)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'pdf'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="11IIIII111In-3.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+paste(os.path.join(<span class="str">r"C:\tssmoketest"</span>, <span class="str">'Reports'</span>, <span class="str">"Bills for Approval.PDF"</span>))
+<span class="skw">type</span>(Key.ENTER)
+logging.debug(<span class="str">'- Placing bill in Approval stage'</span>)
+<span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-3.png" />).similar(<span class="dig">0.91</span>)):
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Billshavebee-5.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">click</span>(Pattern(<img src="Approvebills.png" />).similar(<span class="dig">0.93</span>))
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="Billshavebee-6.png" />)
+<span class="kw">if</span> exists(Pattern(<img src="Selectwhichr-3.png" />).similar(<span class="dig">0.86</span>)):
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="NameGenerate-14.png" />).similar(<span class="dig">0.88</span>))
+logging.debug(<span class="str">'- Generating Statements'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'s'</span>)
+<span class="skw">wait</span>(Pattern(<img src="NameGenerate-12.png" />).similar(<span class="dig">0.88</span>))
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="SageQAAutoma.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(<img src="SageQAAutoma.png" />)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="NameGenerate-12.png" />).similar(<span class="dig">0.88</span>))
+logging.debug(<span class="str">'- Clearing Bills'</span>)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'u'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Thisisalisto-5.png" />).similar(<span class="dig">0.88</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.INSERT)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'u'</span>, KeyModifier.ALT)
+onAppear(Pattern(<img src="Ifyouwanttoi-4.png" />).similar(<span class="dig">0.92</span>), <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT))
+waitVanish(Pattern(<img src="Ifyouwanttoi-4.png" />).similar(<span class="dig">0.92</span>))
+logging.debug(<span class="str">'- Closing Bill Stage dialogs'</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+waitVanish(Pattern(<img src="Thisisalisto-4.png" />).similar(<span class="dig">0.86</span>))
+
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launching Dialogs using Toolbit buttons'</span>)
+logging.debug(<span class="str">'- Launching Slip list'</span>)
+<span class="skw">click</span>(Pattern(<img src="1364584953271-1.png" />).similar(<span class="dig">0.90</span>))
+<span class="skw">wait</span>(Pattern(<img src="srmwmuymeims-1.png" />).similar(<span class="dig">0.88</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="srmwmuymeims-1.png" />).similar(<span class="dig">0.88</span>))
+logging.debug(<span class="str">'- Launching Client List'</span>)
+<span class="skw">click</span>(Pattern(<img src="1364585300099-1.png" />).similar(<span class="dig">0.90</span>))
+<span class="skw">wait</span>(Pattern(<img src="liwwiiwUPBWl-1.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="liwwiiwUPBWl-1.png" />).similar(<span class="dig">0.90</span>))
+logging.debug(<span class="str">'-Launching Billing Assistant'</span>)
+<span class="skw">click</span>(Pattern(<img src="1364585535447-1.png" />).similar(<span class="dig">0.90</span>))
+<span class="skw">wait</span>(Pattern(<img src="EOPnhZIIZhnZ-3.png" />).similar(<span class="dig">0.89</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="EOPnhZIIZhnZ-3.png" />).similar(<span class="dig">0.89</span>))
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Launching Enhanced Navigator Items'</span>)
+logging.debug(<span class="str">'-- Prepare Billing Topic'</span>)
+<span class="skw">click</span>(Pattern(<img src="PrepareBilli-1.png" />).similar(<span class="dig">0.89</span>))
+logging.debug(<span class="str">'- Slip list'</span>)
+<span class="skw">wait</span>(Pattern(<img src="PrebillWorks-2.png" />).similar(<span class="dig">0.91</span>), <span class="dig">10</span>)
+<span class="skw">click</span>(<img src="SlipList-2.png" />)
+<span class="skw">wait</span>(Pattern(<img src="shawmuymeims-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">20</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="shawmuymeims-1.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">'- Billing Assistant'</span>)
+<span class="skw">click</span>(Pattern(<img src="BillingAssis-2.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">wait</span>(Pattern(<img src="EOPnhZIIZhnZ-2.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="EOPnhZIIZhnZ-2.png" />).similar(<span class="dig">0.90</span>))
+logging.debug(<span class="str">'-- Accounts Receivable Topic'</span>)
+<span class="skw">click</span>(Pattern(<img src="AccountsRece-1.png" />).similar(<span class="dig">0.89</span>))
+logging.debug(<span class="str">'- Show Payments and Receivables'</span>)
+<span class="skw">wait</span>(Pattern(<img src="EnteraWriteO-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">10</span>)
+<span class="skw">click</span>(<img src="ShowPaymenta-1.png" />)
+<span class="skw">wait</span>(Pattern(<img src="ViewbyAll-1.png" />).similar(<span class="dig">0.89</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="ViewbyAll-1.png" />).similar(<span class="dig">0.89</span>))
+logging.debug(<span class="str">'- Enter a Payment'</span>)
+<span class="skw">click</span>(Pattern(<img src="Enterapaymen-1.png" />).similar(<span class="dig">0.88</span>))
+<span class="skw">wait</span>(Pattern(<img src="ID6HbalanceN-1.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+<span class="kw">if</span> exists(Pattern(<img src="Doyouwanttos-1.png" />).similar(<span class="dig">0.88</span>)):
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+waitVanish(Pattern(<img src="ID6HbalanceN-1.png" />).similar(<span class="dig">0.90</span>))
+logging.debug(<span class="str">'- Listing Reports'</span>)
+<span class="skw">click</span>(Pattern(<img src="istingReport-1.png" />).similar(<span class="dig">0.89</span>))
+<span class="skw">wait</span>(Pattern(<img src="SelectanAFlL-1.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(<span class="str">'aged'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="NameAgedAFlB-1.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="NameAgedAFlB-1.png" />).similar(<span class="dig">0.90</span>))
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----File Functions'</span>)
+logging.debug(<span class="str">'- Creating Timeslips Backup'</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'b'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Thisprocessc-4.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<img src="SaveasmeSage.png" />, <span class="dig">30</span>)
+logging.debug(<span class="str">'- Saving file path and name'</span>)
+paste(os.path.join(<span class="str">r'C:\tssmoketest'</span>, <span class="str">'Backups'</span>))
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+paste(startTime.strftime(<span class="str">'Smoketest Backup %Y_%m_%d %H_%M_%S.bku'</span>))
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+<span class="kw">if</span> exists(<img src="Abackupfilea-1.png" />):
+    <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(Pattern(<img src="Thebackupofy-2.png" />).similar(<span class="dig">0.89</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Thebackupofy-2.png" />).similar(<span class="dig">0.89</span>))
+logging.debug(<span class="str">'- Restoring Backup'</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'r'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Choosewheret-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'u'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="SageTimeslip-3.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Choosewheret-1.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">'- Creating new Professions DB'</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'n'</span>)
+<span class="skw">type</span>(<span class="str">'d'</span>)
+<span class="skw">wait</span>(Pattern(<img src="SelectaDatab-1.png" />).similar(<span class="dig">0.88</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+paste(os.path.join(<span class="str">'c:'</span>, os.sep, <span class="str">'tssmoketest'</span>, Settings.Version, <span class="str">'accountant'</span>))
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="kw">if</span> exists(Pattern(<img src="UneormoreSag.png" />).similar(<span class="dig">0.89</span>)):
+    <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+paste(<span class="str">'accountant type database'</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">wait</span>(Pattern(<img src="YourDatabase-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">180</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+waitVanish(Pattern(<img src="YourDatabase-1.png" />).similar(<span class="dig">0.91</span>))
+onAppear(Pattern(<img src="FirmAddressI-1.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(Key.ESC))
+waitVanish(Pattern(<img src="FirmAddressI-1.png" />).similar(<span class="dig">0.91</span>))
+onAppear(Pattern(<img src="EIltly0UlIIH-1.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(Key.ESC))
+<span class="skw">wait</span>(Pattern(<img src="SageTimeslip-2.png" />).similar(<span class="dig">0.88</span>))
+<span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT)
+logging.debug(<span class="str">'- Opening Tssmoketest DB from Splash screen'</span>)
+<span class="skw">wait</span>(Pattern(<img src="1364911159766-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">60</span>)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(Pattern(<img src="FilesofmeSag-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">60</span>)
+paste(os.path.join(<span class="str">'c:'</span>, os.sep, <span class="str">'tssmoketest'</span>, Settings.Version, <span class="str">'data01'</span>))
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(Pattern(<img src="SelectTirnek-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+<span class="skw">wait</span>(<img src="isEEQZESlewQ-1.png" />, <span class="dig">60</span>)
+logging.debug(<span class="str">'- Performing Purge function of slips'</span>)
+<span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'p'</span>)
+<span class="skw">wait</span>(Pattern(<img src="SelectDatatu-1.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+onAppear(Pattern(<img src="Purgingdatap-1.png" />).similar(<span class="dig">0.90</span>), <span class="skw">type</span>(Key.ENTER))
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">type</span>(Key.DOWN)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="Usingfilters-2.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="SelectedFilt.png" />)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+waitVanish(Pattern(<img src="Usingfilters-2.png" />).similar(<span class="dig">0.91</span>))
+keyDown(Key.SHIFT)
+<span class="skw">type</span>(Key.TAB)
+keyUp(Key.SHIFT)
+<span class="skw">type</span>(Key.ENTER)
+onAppear(Pattern(<img src="Youareattemp-1.png" />).similar(<span class="dig">0.91</span>), <span class="skw">type</span>(Key.ENTER))
+<span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(Key.ENTER)
+onAppear(Pattern(<img src="Youhaveselec-1.png" />).similar(<span class="dig">0.90</span>), <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT))
+<span class="skw">wait</span>(Pattern(<img src="urgepermanen-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.ESC)
+onAppear(Pattern(<img src="Anydatathatm-1.png" />).similar(<span class="dig">0.89</span>), <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT))
+<span class="kw">if</span> exists(<img src="Nodatawascha-1.png" />):
+    <span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="Purgewassucc-2.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="Purgewassucc-2.png" />).similar(<span class="dig">0.89</span>))
+logging.debug(<span class="str">'- Purge successful'</span>)
+logging.debug(<span class="str">'- Closing Clients'</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'i'</span>)
+<span class="skw">wait</span>(Pattern(<img src="UPBYIlTempla.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">click</span>(Pattern(<img src="1364927221383.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">wait</span>(<img src="Usethisdialo-3.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(Key.UP)
+<span class="skw">type</span>(Key.TAB + Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.F4)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<img src="Areyousureyo-1.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT)
+waitVanish(<img src="Usethisdialo-3.png" />)
+<span class="skw">type</span>(Key.F6 + Key.F6 + Key.F6)
+<span class="skw">wait</span>(Pattern(<img src="DpenITemplat-1.png" />).similar(<span class="dig">0.87</span>), <span class="dig">30</span>)
+<span class="kw">assert</span> exists(Pattern(<img src="DpenITemplat.png" />).similar(<span class="dig">0.94</span>))
+logging.debug(<span class="str">'- Opening Clients'</span>)
+<span class="skw">click</span>(Pattern(<img src="1364927221383.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">wait</span>(<img src="Usethisdialo-3.png" />)
+<span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'c'</span>)
+<span class="skw">type</span>(Key.TAB + Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.F4)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(Pattern(<img src="Areyousureyo-2.png" />).similar(<span class="dig">0.86</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'y'</span>)
+waitVanish(<img src="Usethisdialo-3.png" />)
+<span class="skw">type</span>(Key.F6)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="kw">assert</span> exists(Pattern(<img src="SikuliTestCl.png" />).similar(<span class="dig">0.88</span>))
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Timesheet Entry'</span>)
+logging.debug(<span class="str">'- Create Timesheet Template'</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'t'</span>)
+<span class="skw">type</span>(<span class="str">'t'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Viewby.png" />).similar(<span class="dig">0.90</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="Templatedeta.png" />).similar(<span class="dig">0.88</span>), <span class="dig">30</span>)
+paste(<span class="str">'Sikuli TS Template'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(Key.TAB)
+paste(<span class="str">'Sikuli Timesheet Template Description'</span>)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+<span class="kw">if</span> exists(<img src="D0youwanttos.png" />):
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+waitVanish(<img src="Templatedeta-1.png" />)
+logging.debug(<span class="str">'- Launching Timesheet Template'</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'ts'</span>)
+<span class="skw">wait</span>(<img src="XiuAvmeufxuc.png" />, <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'sik'</span>)
+<span class="skw">wait</span>(Pattern(<img src="SikuliTestCl-1.png" />).similar(<span class="dig">0.88</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(Key.TAB + Key.TAB)
+<span class="skw">type</span>(<span class="str">'2'</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="2DI-1.png" />, <span class="dig">20</span>)
+<span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="SikuliTestUm.png" />, <span class="dig">20</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+waitVanish(<img src="SikuliTestUm.png" />)
+<span class="skw">type</span>(Key.F5)
+<span class="skw">wait</span>(<img src="2Ui.png" />, <span class="dig">10</span>)
+<span class="skw">type</span>(Key.F5)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="SikuliTestCl-1.png" />).similar(<span class="dig">0.88</span>))
+logging.debug(<span class="str">'- Run Timesheet entry report'</span>)
+<span class="skw">type</span>(<span class="str">'r'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="BillingSipIA.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(Key.F6)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'time sheet slip entry'</span> + Key.ENTER)
+<span class="skw">wait</span>(<img src="limnaSheaSip.png" />, <span class="dig">120</span>)
+<span class="kw">assert</span> exists(<img src="2DOD2D.png" />)
+<span class="skw">type</span>(Key.ESC)
+waitVanish(<img src="limnaSheaSip.png" />)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Timeslips Today'</span>)
+logging.debug(<span class="str">'- Create TST Template'</span>)
+keyDown(Key.ALT)
+<span class="skw">type</span>(<span class="str">'c t s'</span>)
+keyUp(Key.ALT)
+<span class="skw">wait</span>(Pattern(<img src="Timeslipscou.png" />).similar(<span class="dig">0.88</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(<span class="str">'c'</span>)
+<span class="skw">wait</span>(Pattern(<img src="Usethisdialo-1.png" />).similar(<span class="dig">0.86</span>), <span class="dig">120</span>)
+<span class="skw">dragDrop</span>(<img src="AIFTransacti.png" />, <img src="Emptv.png" />)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.ALT)
+<span class="skw">type</span>(<span class="str">'1'</span>)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+<span class="skw">wait</span>(Pattern(<img src="SaveastypeTi.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+paste(<span class="str">'Sikuli TST Template'</span>)
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(Pattern(<img src="SaveastypeTi.png" />).similar(<span class="dig">0.91</span>))
+<span class="kw">if</span> exists(Pattern(<img src="SikuliTSTTem.png" />).similar(<span class="dig">0.93</span>)):
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="Usethisdialo-1.png" />).similar(<span class="dig">0.86</span>))
+logging.debug(<span class="str">'- Assign TST Template'</span>)
+keyDown(Key.ALT)
+<span class="skw">type</span>(<span class="str">'c t a'</span>)
+keyUp(Key.ALT)
+<span class="skw">wait</span>(Pattern(<img src="Usethisdialo-2.png" />).similar(<span class="dig">0.94</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(<span class="str">'sikuli'</span>)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+<span class="skw">type</span>(Key.TAB + Key.ENTER)
+<span class="kw">assert</span> exists(Pattern(<img src="Template.png" />).similar(<span class="dig">0.96</span>))
+<span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+waitVanish(Pattern(<img src="Usethisdialo-2.png" />).similar(<span class="dig">0.94</span>))
+logging.debug(<span class="str">'- Launch TST Manually'</span>)
+keyDown(Key.ALT)
+<span class="skw">type</span>(<span class="str">'c t s'</span>)
+keyUp(Key.ALT)
+<span class="skw">wait</span>(Pattern(<img src="AIRTransacti.png" />).similar(<span class="dig">0.90</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+waitVanish(Pattern(<img src="AIRTransacti.png" />).similar(<span class="dig">0.90</span>))
+logging.debug(<span class="str">'- Change Prefs to launch TST'</span>)
+keyDown(Key.ALT)
+<span class="skw">type</span>(<span class="str">'p p'</span>)
+keyUp(Key.ALT)
+<span class="skw">wait</span>(Pattern(<img src="InterfaceSta-2.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'n n'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'y'</span> + Key.ENTER)
+waitVanish(Pattern(<img src="InterfaceSta-2.png" />).similar(<span class="dig">0.91</span>))
+logging.debug(<span class="str">'- Close and reopen Timeslips to Launch TST'</span>)
+<span class="cmt">#type(Key.F4, KeyModifier.ALT)
+</span>timeslip.close()
+<span class="kw">if</span> exists(Pattern(<img src="ExitSageTime.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>):
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+<span class="kw">if</span> exists(Pattern(<img src="YourSageTime.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>):
+    <span class="skw">type</span>(Key.ESC)
+<span class="skw">wait</span>(<span class="dig">1</span>)
+timeslip.open()
+DBChecks.checkFor_Preferror()
+DBChecks.checkFor_BkuPopup()
+DBChecks.checkFor_BillingDate()
+DBChecks.checkFor_SPS()
+DBChecks.checkFor_PEP()
+<span class="skw">wait</span>(Pattern(<img src="AIRTransacti-1.png" />).similar(<span class="dig">0.96</span>), <span class="dig">120</span>)
+<span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+logging.debug(<span class="str">'- Change Prefs to launch Navigator'</span>)
+keyDown(Key.ALT)
+<span class="skw">type</span>(<span class="str">'p p'</span>)
+keyUp(Key.ALT)
+<span class="skw">wait</span>(Pattern(<img src="InterfaceSta-2.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+<span class="skw">type</span>(<span class="str">'n y'</span>)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">'n'</span> + Key.ENTER)
+waitVanish(Pattern(<img src="InterfaceSta-2.png" />).similar(<span class="dig">0.91</span>))
+<span class="skw">type</span>(Key.F10, KeyModifier.CTRL)
+<span class="skw">wait</span>(<img src="ChangeTempla.png" />, <span class="dig">60</span>)
+<span class="cmt">#----------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'----Alerts'</span>)
+logging.debug(<span class="str">'- Calling Alerts Regression Script'</span>)
+Alerts.alerts_regression()
+
+<span class="cmt">#------------------2014 SR1 Slip defect fix checks--------------------#
+</span>
+<span class="dig">2014</span>SR1DefectFixes.SR1_2014_defect_fixes()
+<span class="cmt">#--------------------Slip List Regression-----------------------------------------------#
+</span>SlipsList.slip_list()
+
+<span class="cmt">#-------------------------------------------------------------------#
+</span>timeslip.close()
+<span class="cmt">#----------------------------------------#
+</span>
+
+
+
+
+
+
+
+<span class="cmt">#----------------------------------------#
+</span>endTime = datetime.datetime.now()
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(endTime.strftime(<span class="str">"Stopped at: %Y-%m-%d %H:%M:%S"</span>))
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+
+elapsedTime = endTime - startTime
+logging.debug(<span class="str">"Elapsed:    %s"</span> %elapsedTime)
+
+EmailTestResults.email_results()
+
+
+
+<span class="skw">popup</span>(<span class="str">'Test Successful Click Ok to Exit'</span>)
+
+exit()
+</pre>
+</body>
+</html>

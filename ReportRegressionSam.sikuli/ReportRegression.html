@@ -1,0 +1,293 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>ReportRegressionSam.sikuli\ReportRegression.sikuli</h2> <a href="ReportRegressionSam.sikuli\ReportRegression.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+<span class="kw">import</span> RestorePrefs
+<span class="kw">import</span> DBSetup
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> DBChecks
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> shutil
+<span class="kw">import</span> Toolbox
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+startTime = datetime.datetime.now()
+
+cOutputcount = <span class="dig">7</span>
+
+
+<span class="cmt">#-------------make sure you have Microsoft Office 2013 installed inorder for the Print to
+</span><span class="cmt">#-------------Excel options  work correctly and Print to DOC correctly.
+</span>
+
+
+<span class="kw">def</span> SelectReport(pGroup,pDown):
+    Toolbox.Navigatepage(pGroup,<span class="str">'True'</span>)
+    Toolbox.Navigatelist(pDown,<span class="str">'True'</span>)
+
+<span class="kw">def</span> OpenReportList():
+    <span class="skw">type</span>(<span class="str">'r'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="Youcanchange.png" />).similar(<span class="dig">0.90</span>), <span class="dig">10</span>)
+
+
+
+<span class="kw">def</span> OpenReport(pF6,pDown):
+    SelectReport(pF6,pDown)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="ISortandSubt-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">20</span>)
+
+<span class="kw">def</span> CloseReport():
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(Pattern(<img src="Youhavechang.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+
+<span class="kw">def</span> CheckforNoData():
+    <span class="kw">if</span> exists(<img src="Nodatawassel.png" />):
+        <span class="skw">type</span>(Key.ENTER)
+
+<span class="kw">def</span> ReportMoveToPrintto():
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB + Key.TAB)
+    keyUp(Key.SHIFT)
+
+
+
+<span class="kw">def</span> ReportPrintDisplay():
+    <span class="skw">type</span>(Key.HOME) <span class="cmt">#condition focus is on Print to</span>
+    <span class="skw">type</span>(<span class="str">'display'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="Preview.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(Pattern(<img src="Preview.png" />).similar(<span class="dig">0.91</span>))
+
+<span class="kw">def</span> ReportPrintPrinter():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'printer.'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="PrinterNameS-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="kw">if</span> <span class="kw">not</span> exists(Pattern(<img src="Name-1.png" />).similar(<span class="dig">0.96</span>)):
+        <span class="skw">type</span>(<span class="str">'microsoft'</span>)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> <span class="kw">not</span> exists(Pattern(<img src="FilenameSave-1.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">click</span>(Pattern(<img src="1402952731422.png" />).similar(<span class="dig">0.88</span>))
+    <span class="kw">assert</span> exists(Pattern(<img src="FilenameSave-1.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">wait</span>(Pattern(<img src="FilenameSave-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    paste(<span class="str">r'c:\ReportRegressionPrinttest.xps'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="Rep0rtRegres.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+    waitVanish(Pattern(<img src="FilenameSave-1.png" />).similar(<span class="dig">0.91</span>))
+
+<span class="kw">def</span> ReportPrintExcel():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'micro'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="FileOptionsA.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+    <span class="skw">wait</span>(<img src="Paste-1.png" />, <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Wanttosaveyo.png" />, <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(<img src="Paste-1.png" />)
+
+<span class="kw">def</span> ReportPrintRTF():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'rtf'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="NametheRTFfi.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="kbDoyouwantt.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+    <span class="skw">wait</span>(<img src="IQPaste.png" />, <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Wanttosaveyo.png" />, <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(<img src="IQPaste.png" />)
+
+<span class="kw">def</span> ReportPrintCSV():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'csv'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="VametheCSVti.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+    <span class="skw">wait</span>(<img src="Paste-1.png" />, <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Wanttosaveyo.png" />, <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(<img src="Paste-1.png" />)
+
+<span class="kw">def</span> ReportPrintTAB():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'tab'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="VametheTABti.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+
+    <span class="skw">wait</span>(<img src="Paste-1.png" />, <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Wanttosaveyo.png" />, <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(<img src="Paste-1.png" />)
+
+<span class="kw">def</span> ReportPrintPDF():
+    <span class="skw">type</span>(Key.HOME)
+    <span class="skw">type</span>(<span class="str">'pdf'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.CTRL)
+    CheckforNoData()
+    <span class="skw">wait</span>(Pattern(<img src="Selectthenam.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">if</span> exists(Pattern(<img src="Doyouwanttor-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+
+    <span class="skw">wait</span>(Pattern(<img src="AgedARBalanc.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    waitVanish(Pattern(<img src="AgedARBalanc.png" />).similar(<span class="dig">0.91</span>))
+
+
+<span class="kw">def</span> PrintReportTo(pOutput):
+    <span class="kw">if</span> pOutput==<span class="dig">1</span>:
+        ReportPrintDisplay()
+    <span class="kw">if</span> pOutput==<span class="dig">2</span>:
+        ReportPrintPrinter()
+    <span class="kw">if</span> pOutput==<span class="dig">3</span>:
+        ReportPrintExcel()
+    <span class="kw">if</span> pOutput==<span class="dig">4</span>:
+        ReportPrintRTF()
+    <span class="kw">if</span> pOutput==<span class="dig">5</span>:
+        ReportPrintCSV()
+    <span class="kw">if</span> pOutput==<span class="dig">6</span>:
+        ReportPrintTAB()
+    <span class="kw">if</span> pOutput==<span class="dig">7</span>:
+        ReportPrintPDF()
+
+
+<span class="kw">def</span> ReportSupportsOutput(pGroup, pIndex, pOutput):
+    <span class="kw">if</span> (pGroup == <span class="dig">1</span>) <span class="kw">and</span> (pIndex == <span class="dig">6</span>) <span class="kw">and</span> (pOutput == <span class="dig">5</span>):
+        <span class="kw">return</span> False
+    <span class="kw">else</span>:
+        <span class="kw">return</span> True
+
+
+
+
+<span class="kw">def</span> PrintReport(pGroup,pIndex):
+    OpenReport(pGroup,pIndex)
+    ReportMoveToPrintto()
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>,cOutputcount):
+        <span class="kw">if</span> ReportSupportsOutput(pGroup, pIndex, x):
+            PrintReportTo(x)
+    CloseReport()
+
+<span class="kw">def</span> PrintReportGroup(pGroup,pCount):
+    OpenReportList()
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>,pCount):
+        PrintReport(pGroup,x)
+
+
+<span class="cmt">#PrintReport(0,0)
+</span>PrintReportGroup(<span class="dig">0</span>,<span class="dig">1</span>)
+</pre>
+</body>
+</html>

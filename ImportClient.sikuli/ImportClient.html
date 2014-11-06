@@ -1,0 +1,172 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>ImportClient.sikuli\ImportClient.sikuli</h2> <a href="ImportClient.sikuli\ImportClient.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">import</span> logging
+<span class="kw">import</span> mySettings
+<span class="kw">import</span> os
+
+
+
+
+tsimport = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"tsimport.exe"</span>))
+
+
+<span class="cmt"># - - - - - - - - - - - - - - - - - - - - - - - - - #
+</span><span class="kw">def</span> import_client():
+<span class="cmt"># - - - - - - - - - - - - - - - - - - - - - - - - - #
+</span>    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'Import_Clients'</span>)
+<span class="cmt"># start tsimport
+</span>    logging.debug(<span class="str">'- start TSImport'</span>)
+    tsimport.open()
+    <span class="skw">wait</span>(Pattern(<img src="EileIemplate.png" />).similar(<span class="dig">0.86</span>), <span class="dig">160</span>)
+    keyDown(Key.ALT)
+    keyDown(Key.SPACE)
+    <span class="skw">type</span>(<span class="str">'x'</span>)
+    keyUp(Key.ALT)
+    keyUp(Key.SPACE)
+    logging.debug(<span class="str">'- set up client template'</span>)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"f"</span>,KEY_ALT)
+    <span class="skw">type</span>(<span class="str">"n"</span>)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"co"</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"cl"</span>)
+    <span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+
+    <span class="cmt">#choose source
+</span>    <span class="skw">wait</span>(<img src="PutdataintoZ.png" />)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"g"</span>,KEY_ALT)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    paste(os.path.join(<span class="str">r'C:\Sikuli Scripts vm x'</span>, <span class="str">'2015'</span>, <span class="str">'Data'</span>, <span class="str">'SmokeTestClientExport.csv'</span>))
+
+    <span class="cmt"># choose fields
+</span>    <span class="skw">doubleClick</span>(<img src="Nickname1.png" />)
+    <span class="skw">doubleClick</span>(<img src="9Nickname2.png" />)
+    <span class="skw">doubleClick</span>(<img src="9FullName.png" />)
+    <span class="skw">doubleClick</span>(<img src="9AddressLine.png" />)
+
+    <span class="cmt"># city
+</span>    <span class="skw">type</span>(<span class="str">"c"</span>)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">doubleClick</span>(<img src="9State.png" />)
+    <span class="skw">doubleClick</span>(<img src="ZIPCode-1.png" />)
+
+    <span class="cmt"># move to address 1
+</span>    <span class="skw">type</span>(<span class="str">"a"</span>)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">doubleClick</span>(<img src="9AddressLine-1.png" />)
+    <span class="skw">doubleClick</span>(<img src="PhoneNumberI.png" />)
+
+    <span class="cmt"># in reference to
+</span>    <span class="skw">type</span>(<span class="str">"i"</span>)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">doubleClick</span>(<img src="9Notes.png" />)
+
+    <span class="cmt"># rate 01
+</span>    <span class="skw">doubleClick</span>(<img src="9RateLevelU1.png" />)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+
+<span class="cmt"># omit 1st record
+</span>    <span class="skw">click</span>(<img src="Limitrecords.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"2"</span>)
+
+<span class="cmt"># import data
+</span>    logging.debug(<span class="str">'- import data'</span>)
+    <span class="skw">click</span>(<img src="1352092489137.png" />)
+    <span class="skw">wait</span>(<img src="1352092526314.png" />, <span class="dig">30</span>)
+    <span class="skw">click</span>(<img src="1352092535682.png" />)
+
+<span class="cmt"># verify data
+</span>    <span class="skw">wait</span>(<img src="EndOfImport.png" />,FOREVER)
+    <span class="kw">if</span> exists(Pattern(<img src="FailedImport.png" />).similar(<span class="dig">0.95</span>)):
+        logging.debug(<span class="str">'- import complete - no failed names'</span>)
+    <span class="kw">else</span>:
+        logging.debug(<span class="str">'- import complete - some failed names'</span>)
+
+<span class="cmt"># close tsimport
+</span>    logging.debug(<span class="str">'- close TSImport'</span>)
+    tsimport.close()
+
+
+<span class="cmt">#import_clients()</span>
+</pre>
+</body>
+</html>

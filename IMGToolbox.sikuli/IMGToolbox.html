@@ -1,0 +1,234 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>IMGToolbox.sikuli\IMGToolbox.sikuli</h2> <a href="IMGToolbox.sikuli\IMGToolbox.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> os
+<span class="kw">import</span> logging
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> datetime
+
+startTime = datetime.datetime.now()
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt"># images as variables for Timeslips, any time we change an image that is used for a wait or what ever then we can just change it here in once place.
+<<<<<<< HEAD
+</span><span class="cmt">#AR Entry and List image variables
+=======
+>>>>>>> origin/master
+</span>IMG_ar_list = (<img src="1409078331803.png" />)
+IMG_ar_entry = (<img src="1409078420695.png" />)
+IMG_ar_calendar = (<img src="1410368444653.png" />)
+IMG_bank_dep = (<img src="1410368653371.png" />)
+
+
+IMG_ar_filter_selections = (<img src="1410803930501.png" />)
+
+IMG_ar_writeoff_applied_error = (<img src="1410899549580.png" />)
+
+IMG_invoice_search = (<img src="1410803949261.png" />)
+
+
+IMG_ar_client_sel_filter = (<img src="1410803980429.png" />)
+
+
+IMG_do_want_save_ar = (<img src="1410804006519.png" />)
+
+
+IMG_ar_id_new = (<img src="1410804014624.png" />)
+
+IMG_ar_reverse_empty = (<img src="1410813269258.png" />)
+
+IMG_ar_transfer_assign_empty = (<img src="1410813812565.png" />)
+IMG_ar_value_too_low = (<img src="1410814199340.png" />)
+IMG_ar_trans_fully_applied = (<img src="1410814326801.png" />)
+IMG_ar_special_credit_error = (<img src="1410815547908.png" />)
+IMG_ar_combo_payment = (<img src="1410815686745.png" />)
+
+IMG_ar_invoice_details_validate_no_invoice = (<img src="1410894834764.png" />)
+IMG_ar_invoice_details_validate_save_yes_invoice = (<img src="1411069653291.png" />)
+
+IMG_ar_refund_assign_message = (<img src="1411064127060.png" />)
+IMG_ar_money_suspense = (<img src="1411065836313.png" />)
+IMG_ar_client_required = (<img src="1411072633933.png" />)
+IMG_ar_value_too_low = (<img src="1411072732280.png" />)
+IMG_ar_client_combo_highlight = (<img src="1411074849595.png" />)
+IMG_ar_client_mylists_myclients = (Pattern(<img src="1411074952423.png" />).similar(<span class="dig">0.93</span>))
+IMG_ar_client_mylists_allclients = (Pattern(<img src="1411074984856.png" />).similar(<span class="dig">0.93</span>))
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+<<<<<<< HEAD
+</span><span class="cmt"># Billing Assistant image Variables
+</span>
+IMG_ba_view_prompt = (<img src="1414175275509.png" />)
+IMG_ba_entry_view = (<img src="1414178847260.png" />)
+IMG_ba_list_view = (<img src="1414178903165.png" />)
+=======
+</span><span class="cmt"># 
+</span>
+>>>>>>> origin/master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt"># 
+</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt"># 
+</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt"># 
+</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt">#</span>
+</pre>
+</body>
+</html>

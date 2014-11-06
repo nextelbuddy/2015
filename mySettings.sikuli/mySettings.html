@@ -1,0 +1,192 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>mySettings.sikuli\Global.sikuli</h2> <a href="mySettings.sikuli\Global.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+
+<span class="cmt">#This is my main function for anything I want to use as global variables. Make sure to
+</span><span class="cmt">#always import this script into your functions if you want to call anything in it.
+</span><span class="kw">import</span> os
+<span class="kw">import</span> javax.swing.JOptionPane <span class="kw">as</span> JOP
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span>
+<span class="cmt">#Constants
+</span><span class="cmt"># Use this path when you are on a network machine "\\gaqtsbuild01\TSStorage"
+</span><span class="cmt"># Use this path when you are on a VM r"\\tsclient\p"
+</span>cBuildMachine = <span class="str">r"\\gaqtsbuild01\TSStorage"</span>
+cArchiveMachine = <span class="str">r"\\tsarchive"</span>
+
+
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#Variables
+</span>vMinor = <span class="dig">0</span>
+vSR = <span class="dig">1</span>
+vBuild = <span class="dig">0</span>
+
+Settings.vInstallpath = <span class="str">""</span>
+Settings.vUtilityPath = <span class="str">""</span>
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#This is an array to choose if this is a Alpha/Beta install version or Standard install version
+</span>Settings.tInstallPhaseE = [ <span class="str">"ALPHA/BETA"</span>, <span class="str">"Standard"</span>]
+
+Settings.InstallPhase = JOP.showInputDialog(None,
+        <span class="str">"Which phase of the installation do you want?"</span>,
+        <span class="str">"Phase"</span>,
+        JOP.QUESTION_MESSAGE,
+        None,
+        Settings.tInstallPhaseE,
+        Settings.tInstallPhaseE[<span class="dig">0</span>])
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#This is an array to choose if this is a single file install version of full install version
+</span>Settings.tInstallTypesE = [ <span class="str">"CD Image"</span>, <span class="str">"Single File Install"</span>]
+
+Settings.InstallType = JOP.showInputDialog(None,
+        <span class="str">"What type of installation do you want?"</span>,
+        <span class="str">"Installation"</span>,
+        JOP.QUESTION_MESSAGE,
+        None,
+        Settings.tInstallTypesE,
+        Settings.tInstallTypesE[<span class="dig">0</span>])
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt"># Array for Combo box to choose your year
+</span>tInstallYearE = [ <span class="str">"2015"</span>, <span class="str">"2014"</span>, <span class="str">"2013"</span>, <span class="str">"2012"</span>, <span class="str">"2011"</span>]
+
+
+Settings.Version = JOP.showInputDialog(None,
+        <span class="str">"What version of Timeslips?"</span>,
+        <span class="str">"Version"</span>,
+        JOP.QUESTION_MESSAGE,
+        None,
+        tInstallYearE,
+        tInstallYearE[<span class="dig">0</span>])
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt"># Serial number range will be different for each version
+</span><span class="kw">if</span> Settings.Version == <span class="str">"2015"</span>:
+    Settings.vMajor = <span class="dig">23</span>
+    defserial = <span class="str">'23300000'</span>
+<span class="kw">elif</span> Settings.Version == <span class="str">"2014"</span>:
+    Settings.vMajor = <span class="dig">22</span>
+    defserial = <span class="str">'13613732'</span>
+<span class="kw">elif</span> Settings.Version == <span class="str">"2013"</span>:
+    Settings.vMajor = <span class="dig">21</span>
+    defserial = <span class="str">'13800000'</span>
+<span class="kw">elif</span> Settings.Version == <span class="str">"2012"</span>:
+    Settings.vMajor = <span class="dig">20</span>
+    defserial = <span class="str">'13800000'</span>
+<span class="kw">elif</span> Settings.Version == <span class="str">"2011"</span>:
+    Settings.vMajor = <span class="dig">19</span>
+    defserial = <span class="str">'13700000'</span>
+
+Settings.tsSerial = defserial
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#Search build machine for latest build
+</span><span class="cmt">#Requires Settings.Major to be setup
+</span><span class="kw">for</span> vI <span class="kw">in</span> reversed(range(<span class="dig">3</span>)):
+    <span class="kw">for</span> vJ <span class="kw">in</span> reversed(range(<span class="dig">300</span>)):
+        vBuildNumber = str(Settings.vMajor) + <span class="str">"."</span> + str(vMinor) + <span class="str">"."</span> + str(vI) + <span class="str">"."</span> + str(vJ)
+        vFilePath = os.path.join(cBuildMachine, <span class="str">"Builds"</span>, Settings.Version, <span class="str">"build "</span> + vBuildNumber, <span class="str">"setup.exe"</span>)
+        <span class="cmt">#popup(vFilePath)
+</span>        <span class="kw">if</span> os.path.isfile(vFilePath):
+            Settings.vSR = vI
+            Settings.vBuild = vJ
+            Settings.vInstallpath = vFilePath
+            Settings.vUtilityPath = os.path.join(cBuildMachine, <span class="str">"Builds"</span>, Settings.Version, <span class="str">"utilities"</span>, <span class="str">"tscodes.exe"</span>)
+            <span class="kw">break</span>
+    <span class="kw">if</span> os.path.isfile(vFilePath):
+        <span class="kw">break</span>
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#Defined Applications to call to open and close in script 
+</span><span class="cmt">#Requires Settings.Installpath and Settings.UtilityPath
+</span>Settings.tscode = App(Settings.vUtilityPath)
+Settings.tssetup = App(Settings.vInstallpath)
+Settings.single_file_setup = App(os.path.join(cBuildMachine,<span class="str">"Builds"</span>, Settings.Version, <span class="str">"Single File Install"</span>, <span class="str">"SageTimeslips"</span> + Settings.Version + <span class="str">".exe"</span>))
+
+
+<span class="kw">def</span> ts_settings_archive():
+        <span class="cmt">#Defined Applications to call to open and close in script
+</span>    Settings.tscode = App(os.path.join(cArchiveMachine, <span class="str">"Storage"</span>, <span class="str">"Timeslips"</span>, <span class="str">"Installations"</span>, Settings.tsVersion, <span class="str">"utilities"</span>, <span class="str">"TSCodes.exe"</span>))
+    Settings.tssetup = App(os.path.join(cArchiveMachine, <span class="str">"Storage"</span>, <span class="str">"Timeslips"</span>, <span class="str">"Installations"</span>, Settings.tsVersion, Settings.tsBuild, <span class="str">"setup.exe"</span>))
+</pre>
+</body>
+</html>
