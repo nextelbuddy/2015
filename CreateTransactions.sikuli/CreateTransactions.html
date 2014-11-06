@@ -1,0 +1,286 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateTransactions.sikuli\CreateTransactions.sikuli</h2> <a href="CreateTransactions.sikuli\CreateTransactions.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+
+<span class="kw">import</span> ARDescription
+
+<span class="cmt">#Although these are separate functions, functions like refund are dependent on a payment
+</span><span class="cmt">#credit to be present so it is advised to run the refund function with the payment function 
+</span><span class="cmt">#to prevent errors
+</span>
+
+<span class="kw">def</span> create_payment():
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'a'</span>)
+    <span class="skw">wait</span>(<img src="ViewbyAll.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew.png" />).similar(<span class="dig">0.87</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli test client'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="SikuliTesCli.png" />, <span class="dig">20</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'100.00'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1362599571072.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="TvpePaymentS.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+<span class="cmt">#-------------------------------------------------------#
+</span>
+<span class="cmt">#-------------------------------------------------------#
+</span><span class="kw">def</span> create_credit():
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'a'</span>)
+    <span class="skw">wait</span>(<img src="ViewbyAll.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew.png" />).similar(<span class="dig">0.87</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'credit'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli test client'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="SikuliTesCli.png" />, <span class="dig">20</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'100.00'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1362599571072.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="TvpeCreditSi.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+<span class="cmt">#-------------------------------------------------------#
+</span>
+<span class="cmt">#-------------------------------------------------------#
+</span><span class="kw">def</span> create_refund():
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'a'</span>)
+    <span class="skw">wait</span>(<img src="ViewbyAll.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew.png" />).similar(<span class="dig">0.87</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'refund'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli test client'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="SikuliTesCli.png" />, <span class="dig">20</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'100.00'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(Pattern(<img src="Amount1lllll.png" />).similar(<span class="dig">0.94</span>), <span class="dig">10</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="Theamountoft.png" />).similar(<span class="dig">0.92</span>)):
+        <span class="skw">type</span>(Key.DOWN + Key.DOWN + Key.DOWN)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="cmt">#------This is to check for proper amounts when saving refunds.------#
+</span>    <span class="kw">while</span> exists(<img src="Theamountoft-1.png" />, <span class="dig">0</span>):
+       <span class="skw">type</span>(Key.ENTER)
+       <span class="skw">type</span>(Key.DOWN)
+       <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1362599571072.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="TvpeRefundSi.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+
+
+
+
+
+
+
+<span class="kw">def</span> ar_transaction_regression():
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'a'</span>)
+    <span class="skw">wait</span>(<img src="ViewbyAll.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew.png" />).similar(<span class="dig">0.87</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'p'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="DaymentThank.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'c'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Credit.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'w'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Writeoffbadd.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'r'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Flefund-1.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'i'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Invoice.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'rr'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Insufficient.png" />).similar(<span class="dig">0.90</span>))
+    <span class="skw">type</span>(<span class="str">'t'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Transfertofu.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'d'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="Discount.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'s'</span> + Key.TAB)
+    <span class="kw">assert</span> exists(Pattern(<img src="Youcannotcre.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Youcannotcre.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'ii'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="IncreaseInvo-1.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(<span class="str">'dd'</span> + Key.TAB)
+    <span class="skw">type</span>(Key.TAB, KeyModifier.SHIFT)
+    <span class="kw">assert</span> exists(Pattern(<img src="DecreaseInvo.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'p'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'unknown'</span>)
+    <span class="kw">assert</span> <span class="kw">not</span> exists(<img src="DepositSlip.png" />)
+    <span class="skw">type</span>(<span class="str">'check'</span>)
+    <span class="kw">assert</span> exists(<img src="DepositSlip.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'12345'</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="CheckNo.png" />).similar(<span class="dig">0.90</span>))
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli test client'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="SikuliTesCli.png" />, <span class="dig">20</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'1/1/2014'</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="kw">assert</span> exists(<img src="SunMonTueWed.png" />)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(<img src="SunMonTueWed.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<img src="Therearenoba.png" />, <span class="dig">30</span>)
+    onAppear(<img src="Therearenoba.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    onAppear(<img src="Therearenoba.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="Therearenoba.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'10'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    ARDescription.ar_description_shortcuts()
+    <span class="skw">wait</span>(Pattern(<img src="ThisDescript-1.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(Key.TAB + Key.SPACE)
+    <span class="kw">assert</span> exists(<img src="J.png" />)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1362599571072.png" />).similar(<span class="dig">0.92</span>))
+    <span class="kw">assert</span> exists(Pattern(<img src="ThisDescript.png" />).similar(<span class="dig">0.98</span>))
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(<img src="Therearenoba.png" />):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(<img src="Therearenoba.png" />)
+    <span class="skw">type</span>(<span class="str">'i'</span> + Key.TAB + Key.TAB + Key.TAB + Key.TAB + Key.TAB)
+    paste(<span class="str">'54321'</span>)
+    <span class="skw">type</span>(Key.TAB + Key.TAB)
+    paste(<span class="str">'20'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="kw">assert</span> exists(Pattern(<img src="2UDU.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(Pattern(<img src="Thisclientha.png" />).similar(<span class="dig">0.89</span>))
+    onAppear(Pattern(<img src="Thisclientha.png" />).similar(<span class="dig">0.89</span>), <span class="skw">type</span>(<span class="str">'y'</span>))
+    waitVanish(Pattern(<img src="Thisclientha.png" />).similar(<span class="dig">0.89</span>))
+    waitVanish(Pattern(<img src="1362599571072.png" />).similar(<span class="dig">0.92</span>))
+    <span class="kw">assert</span> exists(Pattern(<img src="PaidinFullSU.png" />).similar(<span class="dig">0.93</span>))
+    <span class="kw">assert</span> exists(Pattern(<img src="InvoiceNo543.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    create_credit()
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    create_refund()
+
+
+
+
+
+    <span class="cmt">#type(Key.F4, KeyModifier.CTRL)
+</span>    <span class="cmt">#waitVanish(Pattern("TvpePaymentS.png").similar(0.92))
+</span>    <span class="cmt">#type(Key.F4, KeyModifier.CTRL) 
+</span>
+
+
+
+<span class="cmt">#ar_transaction_regression()
+</span><span class="cmt">#create_payment()
+</span><span class="cmt">#create_credit()
+</span><span class="cmt">#create_refund()</span>
+</pre>
+</body>
+</html>

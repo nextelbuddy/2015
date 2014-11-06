@@ -1,0 +1,145 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Alpha_Beta_Installer.sikuli\Alpha_Beta.sikuli</h2> <a href="Alpha_Beta_Installer.sikuli\Alpha_Beta.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">import</span> os
+<span class="kw">import</span> javax.swing.JOptionPane <span class="kw">as</span> JOP
+
+
+
+<span class="cmt">#--------------------------------------------------------------------------------------
+</span><span class="cmt">#This is an array to choose if this is a Alpha/Beta install version or Standard install version
+</span>Phases.tInstallPhaseE = [ <span class="str">"ALPHA/BETA"</span> ,<span class="str">"Standard"</span>]
+
+<span class="kw">def</span> alpha_combo():
+    Phases.InstallPhase = JOP.showInputDialog(None,
+            <span class="str">"Which phase of the installation do you want?"</span>,
+            <span class="str">"Phase"</span>,
+            JOP.QUESTION_MESSAGE,
+            None,
+            Settings.tInstallPhaseE,
+            Settings.tInstallPhaseE[<span class="dig">0</span>])
+
+
+<span class="cmt">#This is a separate installer for when we are in alpha/beta phase of development. 
+</span><span class="kw">def</span> alpha_beta_installer():
+    <span class="cmt">#section below browses out to network path on build machine and starts the alpha/beta build you specify 
+</span>        <span class="cmt">#installer launches here
+</span>    Settings.tssetup.open()
+    <span class="skw">wait</span>(<img src="SageTlmeslip-1.png" />, <span class="dig">240</span>)
+    <span class="skw">click</span>(Pattern(<img src="InstallSageT-1.png" />).similar(<span class="dig">0.81</span>), <span class="dig">240</span>)
+    <span class="kw">if</span> exists(<img src="Doyouwanttor.png" />, <span class="dig">90</span>):
+        <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="AdobeReaderc.png" />, <span class="dig">90</span>):
+        <span class="skw">type</span>(Key.ESC)
+        waitVanish(<img src="AdobeReaderc.png" />, <span class="dig">30</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Welcometothe.png" />).similar(<span class="dig">0.83</span>), <span class="dig">240</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="LicenseAgree.png" />).similar(<span class="dig">0.77</span>), <span class="dig">240</span>)
+    <span class="skw">type</span>(<span class="str">"a"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    waitVanish(Pattern(<img src="LicenseAgree.png" />).similar(<span class="dig">0.77</span>))
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    waitVanish(Pattern(<img src="Verification-2.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect.png" />).similar(<span class="dig">0.84</span>), <span class="dig">240</span>)
+    <span class="skw">type</span>(<span class="str">"p"</span>, KeyModifier.ALT)
+    paste(<span class="str">r'c:\tssmoketest\\'</span> + Settings.Version)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Pleaseselect.png" />).similar(<span class="dig">0.84</span>))
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-1.png" />).similar(<span class="dig">0.81</span>), <span class="dig">90</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="Thesetupprog-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">"i"</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Beforecontin.png" />):
+        <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-4.png" />).similar(<span class="dig">0.94</span>), <span class="dig">900</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Pleaseselect-5.png" />).similar(<span class="dig">0.89</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(<span class="str">"d"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"u"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"f"</span>, KeyModifier.ALT)
+    waitVanish(Pattern(<img src="Pleaseselect-5.png" />).similar(<span class="dig">0.89</span>))
+        <span class="cmt">#section below is to close all apps opened during installation
+</span>    Settings.tssetup.close()
+</pre>
+</body>
+</html>

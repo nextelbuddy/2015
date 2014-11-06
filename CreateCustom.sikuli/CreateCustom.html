@@ -1,0 +1,299 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateCustom.sikuli\CreateCustom.sikuli</h2> <a href="CreateCustom.sikuli\CreateCustom.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> TABFunction
+
+<span class="kw">def</span> create_customfields():
+    <span class="cmt">#Client custom section
+</span>    <span class="cmt">#-------------------------#
+</span>    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(<img src="Clientrameke-1.png" />, <span class="dig">30</span>)
+    <span class="cmt">#----date type-----#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'d'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="hisisarequir.png" />).similar(<span class="dig">0.86</span>), <span class="dig">30</span>)
+    paste(<span class="str">'Custom Date'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Usethisdialo-3.png" />)
+    <span class="cmt">#-----hours type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'h'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Hours'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----List type---------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'l'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom List'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    onAppear(<img src="Name.png" />, paste(<span class="str">'List Item'</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Name.png" />)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Usethisdialo-3.png" />)
+    <span class="cmt">#-----money type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'m'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Money'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----number------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />)
+    paste(<span class="str">'Custom Number'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----percent-----------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'p'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Percent'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----text--------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'t'</span> + Key.ENTER)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Text'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----timekeeper--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'tt'</span> + Key.ENTER)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Timekeep'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#------Assert changes exists---------#
+</span>    <span class="kw">assert</span> exists(Pattern(<img src="Group1NameCu.png" />).similar(<span class="dig">0.88</span>))
+
+
+
+
+
+    <span class="cmt">#Timekeeper custom section
+</span>    <span class="cmt">#-------------------------#
+</span>    <span class="skw">type</span>(Key.F6)
+    <span class="skw">wait</span>(Pattern(<img src="cnemlTimekee.png" />).similar(<span class="dig">0.96</span>))
+    <span class="cmt">#----date type-----#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'d'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Date'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----hours type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'h'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Hours'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----List type---------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'l'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom List'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    onAppear(<img src="Name.png" />, paste(<span class="str">'List Item'</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Name.png" />)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----money type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'m'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Money'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----number------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Number'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----percent-----------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'p'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Percent'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----text--------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'t'</span> + Key.ENTER)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Text'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="kw">assert</span> exists(Pattern(<img src="ITypeIpateNa.png" />).similar(<span class="dig">0.89</span>))
+
+
+    <span class="cmt">#Activity custom section
+</span>    <span class="cmt">#-------------------------#
+</span>    <span class="skw">type</span>(Key.F6)
+    <span class="skw">wait</span>(Pattern(<img src="ClientTimeke.png" />).similar(<span class="dig">0.96</span>), <span class="dig">30</span>)
+  <span class="cmt">#----date type-----#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'d'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Date'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----hours type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'h'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Hours'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----List type---------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'l'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom List'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    onAppear(<img src="Name.png" />, paste(<span class="str">'List Item'</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Name.png" />)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----money type--------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'m'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Money'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----number------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Number'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----percent-----------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'p'</span>)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Percent'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#-----text--------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'t'</span> + Key.ENTER)
+    <span class="skw">wait</span>(<img src="Namehisisare.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Custom Text'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Namehisisare.png" />)
+    <span class="cmt">#------Assert changes exists---------#
+</span>    <span class="kw">assert</span> exists(Pattern(<img src="ITypeIpateNa.png" />).similar(<span class="dig">0.89</span>))
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="Usethisdialo-4.png" />)
+
+<span class="cmt">#create_customfields()</span>
+</pre>
+</body>
+</html>

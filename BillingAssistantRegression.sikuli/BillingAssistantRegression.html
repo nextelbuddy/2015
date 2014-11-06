@@ -1,0 +1,133 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>BillingAssistantRegression.sikuli\BillingAssistantRegression.sikuli</h2> <a href="BillingAssistantRegression.sikuli\BillingAssistantRegression.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#-----------------Generate bills script-----------------#
+</span>
+
+
+
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> shutil
+<span class="kw">import</span> Toolbox
+<span class="kw">import</span> IMGToolbox
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> QuickDataCreate
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+startTime = datetime.datetime.now()
+
+<span class="cmt">#----------------------------------------------------------#
+</span>
+<span class="cmt">#----- string to use for date/time string ---------%Y_%m_%d %H_%M_%S
+</span>
+<span class="cmt">#---Create new Quick Data for Billing which only includes names and nothing more---#
+</span><span class="str">"""
+for x in range(1, 2):
+    QuickDataCreate.quick_timekeeper(x)
+    wait(1)
+    QuickDataCreate.quick_client(x)
+    wait(1)
+    QuickDataCreate.quick_task(x)
+    wait(1)
+    QuickDataCreate.quick_expense(x)"""</span>
+
+<span class="cmt">#-------------------------------------------------------------#
+</span><span class="cmt">#Open an existing client such as Sikuli test client 1
+</span>
+<span class="cmt">#------Open Billing Assistant ENTRY MODE--------#
+</span>keyDown(Key.SHIFT)
+<span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+keyUp(Key.SHIFT)
+<span class="kw">if</span> exists(IMGToolbox.IMG_ba_view_prompt):
+    <span class="skw">type</span>(<span class="str">'E'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(Key.ENTER)
+
+<span class="skw">wait</span>(IMGToolbox.IMG_ba_entry_view, <span class="dig">30</span>)
+<span class="kw">assert</span> exists(IMGToolbox.IMG_ba_entry_view)
+<span class="skw">type</span>(<span class="str">'sikuli test client 1'</span>)
+<span class="skw">wait</span>(<span class="dig">.5</span>)
+
+
+
+
+<span class="skw">wait</span>(<span class="dig">1</span>)
+paste(<span class="str">'1'</span>)
+<span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+    TABFunction.tab(x)
+</pre>
+</body>
+</html>

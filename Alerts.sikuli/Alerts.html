@@ -1,0 +1,251 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Alerts.sikuli\Alerts.sikuli</h2> <a href="Alerts.sikuli\Alerts.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="cmt">#import Alpha_Beta
+</span><span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> shutil
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+
+
+
+
+<span class="kw">def</span> alerts_regression():
+    logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    logging.debug(<span class="str">' '</span>)
+    logging.debug(<span class="str">'----Alerts'</span>)
+    logging.debug(<span class="str">'- Create slip for Alert'</span>)
+    keyDown(Key.ALT)
+    <span class="skw">type</span>(<span class="str">'c e m'</span>)
+    keyUp(Key.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="AlertrulesAc-1.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="SelectTimeke-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'s.'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'t'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'v'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'t'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'1'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+    waitVanish(<img src="SelectDateRa-1.png" />)
+    <span class="skw">click</span>(Pattern(<img src="Blickheretoc-1.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">wait</span>(<img src="OtherAlerts-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.LEFT + Key.LEFT)
+    <span class="kw">assert</span> exists(<img src="iHiEEiiiSiii-1.png" />)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="OtherAlerts-1.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    logging.debug(<span class="str">'- Trigger Alert'</span>)
+    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="WewBySelect-1.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew-2.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'s. robertson'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'1'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'100'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Value10000-1.png" />).similar(<span class="dig">0.95</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(Pattern(<img src="D0youwanttoc.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(Pattern(<img src="D0youwanttoc.png" />).similar(<span class="dig">0.91</span>))
+    logging.debug(<span class="str">'- Alert Trigger'</span>)
+
+    <span class="skw">wait</span>(<img src="ThetotalValu-2.png" />, <span class="dig">30</span>)
+
+    logging.debug(<span class="str">'- Alert Remind 1 min'</span>)
+    <span class="skw">type</span>(Key.TAB + Key.TAB)
+    <span class="skw">type</span>(<span class="str">'1'</span>)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="ThetotalValu-2.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="ThetotalValu-3.png" />).similar(<span class="dig">0.93</span>), <span class="dig">200</span>)
+    logging.debug(<span class="str">'- opening Slip from Alert'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">4</span>):
+        TABFunction.tab(x)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="IDType-1.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="IDType-1.png" />).similar(<span class="dig">0.92</span>))
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB + Key.TAB + Key.TAB)
+    keyUp(Key.SHIFT)
+    logging.debug(<span class="str">'- Dismissing Alert'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="ThetotalValu-3.png" />).similar(<span class="dig">0.93</span>))
+    <span class="skw">click</span>(<img src="TimeslipsTod.png" />)
+    <span class="skw">wait</span>(<img src="TimeslipsMes.png" />, <span class="dig">30</span>)
+    keyDown(Key.ALT)
+    <span class="skw">type</span>(<span class="str">'c e m'</span>)
+    keyUp(Key.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="AlertrulesAc-1.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.DELETE, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="Areyousureth.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+    waitVanish(<img src="Areyousureth.png" />)
+    logging.debug(<span class="str">'- 2nd Alert Rule Creation'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="SelectTimeke-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'f'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'v'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'t'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'1'</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+    waitVanish(<img src="SelectDateRa-1.png" />)
+    <span class="skw">click</span>(Pattern(<img src="Blickheretoc-1.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">wait</span>(<img src="OtherAlerts-1.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.RIGHT + Key.RIGHT)
+    <span class="kw">assert</span> exists(Pattern(<img src="lirlnlnrfrli.png" />).similar(<span class="dig">0.92</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="OtherAlerts-1.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    logging.debug(<span class="str">'- Trigger Alert'</span>)
+    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="WewBySelect-1.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="IDNew-2.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'s. robertson'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'sikuli'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'1'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'100'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Value10000-1.png" />).similar(<span class="dig">0.95</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(Pattern(<img src="D0youwanttoc.png" />).similar(<span class="dig">0.91</span>)):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(Pattern(<img src="D0youwanttoc.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="TimeslipsMes-1.png" />).similar(<span class="dig">0.91</span>))
+</pre>
+</body>
+</html>

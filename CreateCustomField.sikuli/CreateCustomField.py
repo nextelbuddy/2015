@@ -1,0 +1,86 @@
+from sikuli import*
+import TABFunction
+
+
+def create_custom_field():
+    type('p', KeyModifier.ALT)
+    type('c')
+    wait("Usethisdialo.png", 30)
+    #----date type-----#
+    type('n', KeyModifier.ALT)
+    type('d')
+    wait("Usethisdialo-3.png")
+    paste('Custom Date')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----hours type--------#
+    type('n', KeyModifier.ALT)
+    type('h')
+    wait("Usethisdialo-3.png")
+    paste('Custom Hours')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----List type---------#
+    type('n', KeyModifier.ALT)
+    type('l')
+    wait("Usethisdialo-3.png")
+    paste('Custom List')
+    wait(1)
+    type('n', KeyModifier.ALT)
+    onAppear("Name.png", paste('List Item'))
+    type(Key.ENTER)
+    waitVanish("Name.png")
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----money type--------#
+    type('n', KeyModifier.ALT)
+    type('m')
+    wait("Usethisdialo-3.png")
+    paste('Custom Money')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----number------------#
+    type('n', KeyModifier.ALT)
+    type('n')
+    wait("Usethisdialo-3.png")
+    paste('Custom Number')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----percent-----------#
+    type('n', KeyModifier.ALT)
+    type('p')
+    wait("Usethisdialo-3.png")
+    paste('Custom Percent')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----text--------------#
+    type('n', KeyModifier.ALT)
+    type('t' + Key.ENTER)
+    wait("Usethisdialo-3.png")
+    paste('Custom Text')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #-----timekeeper--------#
+    type('n', KeyModifier.ALT)
+    type('tt' + Key.ENTER)
+    wait("Usethisdialo-3.png")
+    paste('Custom Timekeep')
+    wait(1)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo-3.png")
+    #------Assert changes exists---------#
+    assert exists(Pattern("Group1NameCu.png").similar(0.88))
+    keyDown(Key.SHIFT)
+    type(Key.TAB)
+    keyUp(Key.SHIFT)
+    type(Key.ENTER)
+    waitVanish("Usethisdialo.png")
+
+
+#create_custom_field()

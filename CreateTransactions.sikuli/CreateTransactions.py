@@ -1,0 +1,212 @@
+from sikuli import*
+
+
+import ARDescription
+
+#Although these are separate functions, functions like refund are dependent on a payment
+#credit to be present so it is advised to run the refund function with the payment function 
+#to prevent errors
+
+
+def create_payment():
+    type('t', KeyModifier.ALT)
+    type('a')
+    wait("ViewbyAll.png", 30)
+    type('n', KeyModifier.CTRL)
+    wait(Pattern("IDNew.png").similar(0.87), 30)
+    type(Key.TAB)
+    type(Key.TAB)
+    type(Key.TAB)
+    type('sikuli test client')
+    type(Key.ENTER)
+    wait("SikuliTesCli.png", 20)
+    type(Key.TAB)
+    type(Key.TAB)
+    type(Key.TAB)
+    paste('100.00')
+    wait(1)
+    type('s', KeyModifier.CTRL)
+    waitVanish(Pattern("1362599571072.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern("TvpePaymentS.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL) 
+#-------------------------------------------------------#
+
+#-------------------------------------------------------#
+def create_credit():
+    type('t', KeyModifier.ALT)
+    type('a')
+    wait("ViewbyAll.png", 30)
+    type('n', KeyModifier.CTRL)
+    wait(Pattern("IDNew.png").similar(0.87), 30)
+    type('credit')
+    type(Key.TAB)
+    type('sikuli test client')
+    type(Key.ENTER)
+    wait("SikuliTesCli.png", 20)
+    type(Key.TAB)
+    type(Key.TAB)
+    paste('100.00')
+    wait(1)
+    type('s', KeyModifier.CTRL)
+    waitVanish(Pattern("1362599571072.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern("TvpeCreditSi.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL) 
+#-------------------------------------------------------#
+
+#-------------------------------------------------------#
+def create_refund():
+    type('t', KeyModifier.ALT)
+    type('a')
+    wait("ViewbyAll.png", 30)
+    type('n', KeyModifier.CTRL)
+    wait(Pattern("IDNew.png").similar(0.87), 30)
+    type('refund')
+    type(Key.TAB)
+    type('sikuli test client')
+    type(Key.ENTER)
+    wait("SikuliTesCli.png", 20)
+    type(Key.TAB)
+    type(Key.TAB)
+    paste('100.00')
+    wait(1)
+    type(Key.TAB)
+    type(Key.TAB)
+    type(Key.DOWN)
+    wait(Pattern("Amount1lllll.png").similar(0.94), 10)
+    if exists(Pattern("Theamountoft.png").similar(0.92)):
+        type(Key.DOWN + Key.DOWN + Key.DOWN)
+    type('s', KeyModifier.CTRL)
+    wait(1)
+    #------This is to check for proper amounts when saving refunds.------#
+    while exists("Theamountoft-1.png", 0):
+       type(Key.ENTER)
+       type(Key.DOWN)
+       type('s', KeyModifier.CTRL) 
+    waitVanish(Pattern("1362599571072.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern("TvpeRefundSi.png").similar(0.92))
+    type(Key.F4, KeyModifier.CTRL)     
+    
+
+
+
+
+
+
+def ar_transaction_regression():
+    type('t', KeyModifier.ALT)
+    type('a')
+    wait("ViewbyAll.png", 30)
+    type('n', KeyModifier.CTRL)
+    wait(Pattern("IDNew.png").similar(0.87), 30)
+    type('p' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("DaymentThank.png").similar(0.91))
+    type('c' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Credit.png").similar(0.91))
+    type('w' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Writeoffbadd.png").similar(0.91))
+    type('r' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Flefund-1.png").similar(0.91))
+    type('i' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Invoice.png").similar(0.91))
+    type('rr' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Insufficient.png").similar(0.90))
+    type('t' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Transfertofu.png").similar(0.91))
+    type('d' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("Discount.png").similar(0.91))
+    type('s' + Key.TAB)
+    assert exists(Pattern("Youcannotcre.png").similar(0.91))
+    type(Key.ENTER)
+    waitVanish(Pattern("Youcannotcre.png").similar(0.91))
+    type('ii' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("IncreaseInvo-1.png").similar(0.92))
+    type('dd' + Key.TAB)
+    type(Key.TAB, KeyModifier.SHIFT)
+    assert exists(Pattern("DecreaseInvo.png").similar(0.91))
+    type('p')  
+    type(Key.TAB)
+    type('unknown')
+    assert not exists("DepositSlip.png")
+    type('check')
+    assert exists("DepositSlip.png")
+    type(Key.TAB)
+    paste('12345')
+    assert exists(Pattern("CheckNo.png").similar(0.90))
+    type(Key.TAB)
+    type('sikuli test client')
+    type(Key.ENTER)
+    wait("SikuliTesCli.png", 20)
+    type(Key.TAB)
+    paste('1/1/2014')
+    type('c')
+    assert exists("SunMonTueWed.png")
+    type(Key.ESC)
+    waitVanish("SunMonTueWed.png")
+    type(Key.TAB)
+    type(Key.SPACE)
+    wait("Therearenoba.png", 30)
+    onAppear("Therearenoba.png", type('n'))
+    onAppear("Therearenoba.png", type('n'))
+    waitVanish("Therearenoba.png")
+    type(Key.TAB)
+    paste('10')
+    type(Key.TAB)
+    type('a', KeyModifier.CTRL)
+    type(Key.DELETE)
+    ARDescription.ar_description_shortcuts()
+    wait(Pattern("ThisDescript-1.png").similar(0.91))
+    type(Key.TAB + Key.SPACE)
+    assert exists("J.png")
+    type('s', KeyModifier.CTRL)
+    waitVanish(Pattern("1362599571072.png").similar(0.92))
+    assert exists(Pattern("ThisDescript.png").similar(0.98))
+    type('n', KeyModifier.CTRL)
+    if exists("Therearenoba.png"):
+        type('n')
+        waitVanish("Therearenoba.png")
+    type('i' + Key.TAB + Key.TAB + Key.TAB + Key.TAB + Key.TAB)
+    paste('54321')
+    type(Key.TAB + Key.TAB)
+    paste('20')
+    type(Key.TAB)
+    assert exists(Pattern("2UDU.png").similar(0.91))
+    type('s', KeyModifier.CTRL)
+    assert exists(Pattern("Thisclientha.png").similar(0.89))
+    onAppear(Pattern("Thisclientha.png").similar(0.89), type('y'))
+    waitVanish(Pattern("Thisclientha.png").similar(0.89))
+    waitVanish(Pattern("1362599571072.png").similar(0.92))
+    assert exists(Pattern("PaidinFullSU.png").similar(0.93))
+    assert exists(Pattern("InvoiceNo543.png").similar(0.91))
+    type('w', KeyModifier.CTRL)   
+    create_credit()
+    wait(1)
+    create_refund()
+    
+
+
+
+    
+    #type(Key.F4, KeyModifier.CTRL)
+    #waitVanish(Pattern("TvpePaymentS.png").similar(0.92))
+    #type(Key.F4, KeyModifier.CTRL) 
+
+
+
+
+#ar_transaction_regression()
+#create_payment()
+#create_credit()
+#create_refund()
+

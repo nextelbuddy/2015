@@ -1,0 +1,180 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateTSDB.sikuli\CreateTSDB.sikuli</h2> <a href="CreateTSDB.sikuli\CreateTSDB.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#Timeslips app is called from the installed path from the installer script (c:\tssmoketest\VERSION)
+</span><span class="cmt">#This script can be used in the installer,smoketest and fulltest scripts.
+</span>
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">import</span> RestorePrefs
+<span class="kw">import</span> mySettings
+<span class="kw">import</span> os
+<span class="kw">import</span> DBChecks
+<span class="kw">import</span> socket
+
+
+    <span class="cmt">#defining app instance
+</span>timeslip = App(os.path.join(<span class="str">r"C:\tssmoketest"</span>, Settings.Version, <span class="str">"timeslip.exe"</span>))
+
+<span class="kw">def</span> create_ts_db():
+    <span class="cmt">#------Clearing registry to open timeslips to splash screen----#    
+</span>    <span class="skw">type</span>(<span class="str">"r"</span>, KeyModifier.WIN)
+    <span class="skw">wait</span>(<img src="Typethenameo.png" />, <span class="dig">30</span>)
+    paste(<span class="str">"cmd"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="R11rightsres.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+    <span class="cmt"># type(r'reg DELETE HKEY_CURRENT_USER\Software\Sage\Timeslips\v22\General /v Databasepath')
+</span>    <span class="skw">type</span>(<span class="str">r'reg DELETE HKEY_CURRENT_USER\Software\Sage\Timeslips'</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"y"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"exit"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="R11rightsres-1.png" />).similar(<span class="dig">0.94</span>), <span class="dig">30</span>)
+        <span class="cmt">#opening timeslips application
+</span>    timeslip.open()
+    <span class="cmt">#------steps to create new empty Db------# 
+</span>    <span class="skw">wait</span>(<img src="eTimesliSaQp.png" />, <span class="dig">160</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="SelectaDatab.png" />).similar(<span class="dig">0.96</span>), <span class="dig">160</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="1377618881616-1.png" />).similar(<span class="dig">0.85</span>)):
+        keyDown(Key.SHIFT)
+        <span class="skw">type</span>(Key.TAB + Key.TAB)
+        keyUp(Key.SHIFT)
+        paste(socket.gethostname())
+        <span class="skw">type</span>(Key.TAB)
+        paste(os.path.join(<span class="str">'c:'</span>, os.sep, <span class="str">'tssmoketest'</span>, Settings.Version))
+        <span class="skw">type</span>(Key.TAB)
+        paste(<span class="str">'data01'</span>)
+        <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">elif</span> <span class="kw">not</span> exists(Pattern(<img src="1377618881616-1.png" />).similar(<span class="dig">0.85</span>)):
+        paste(os.path.join(<span class="str">'c:'</span>, os.sep, <span class="str">'tssmoketest'</span>, Settings.Version, <span class="str">'data01'</span>))
+
+
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(Pattern(<img src="UneprmereSag.png" />).similar(<span class="dig">0.98</span>)):
+        <span class="skw">type</span>(<span class="str">"y"</span>)
+    waitVanish(Pattern(<img src="UneprmereSag.png" />).similar(<span class="dig">0.98</span>))
+    paste(<span class="str">"Sage QA Automation Team"</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="YourDatabase.png" />).similar(<span class="dig">0.91</span>), <span class="dig">180</span>)
+    <span class="cmt">#timeslip.focus()
+</span>    <span class="skw">type</span>(<span class="str">"f"</span>, KeyModifier.ALT)
+    onAppear(Pattern(<img src="FirmAddressI.png" />).similar(<span class="dig">0.82</span>), <span class="skw">type</span>(Key.ENTER))
+    <span class="skw">wait</span>(Pattern(<img src="EIIICTy0UIII.png" />).similar(<span class="dig">0.98</span>), <span class="dig">160</span>)
+    paste(<span class="str">"S. Robertson"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    paste(<span class="str">"S. Robertson"</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">"o"</span>)
+    <span class="skw">type</span>(<span class="str">"f"</span>, KeyModifier.ALT)
+
+    DBChecks.checkFor_Preferror()
+    DBChecks.checkFor_BillingDate()
+    DBChecks.checkFor_SPS()
+    DBChecks.checkFor_PEP()
+    waitVanish(Pattern(<img src="ProductEnhan-1.png" />).similar(<span class="dig">0.87</span>))
+    RestorePrefs.restore_prefs()
+    waitVanish(Pattern(<img src="InterfaceApp.png" />).similar(<span class="dig">0.93</span>))
+
+    timeslip.close()
+
+
+
+
+<span class="cmt">#create_ts_db()</span>
+</pre>
+</body>
+</html>

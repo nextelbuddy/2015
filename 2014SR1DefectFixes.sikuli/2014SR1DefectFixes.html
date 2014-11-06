@@ -1,0 +1,413 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>2014SR1DefectFixes.sikuli\2014SR1DefectFixes.sikuli</h2> <a href="2014SR1DefectFixes.sikuli\2014SR1DefectFixes.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">import</span> TABFunction
+<span class="kw">import</span> os
+<span class="kw">import</span> logging
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> datetime
+startTime = datetime.datetime.now()
+
+
+
+
+
+
+
+<span class="kw">def</span> SR1_2014_defect_fixes():
+    <span class="cmt">#Starting from Timeslips home screen
+</span>    <span class="skw">type</span>(<span class="str">'c'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'e m'</span>)
+    <span class="skw">wait</span>(<img src="1383319142183.png" />, <span class="dig">30</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="1383319576394.png" />).similar(<span class="dig">0.96</span>)):
+        <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+        waitVanish(<img src="1383318741533.png" />)
+    <span class="kw">else</span>:
+        <span class="skw">type</span>(Key.DELETE, KeyModifier.CTRL)
+        onAppear(<img src="1383318681146.png" />, <span class="skw">type</span>(<span class="str">'y'</span>))
+        waitVanish(<img src="1383318681146.png" />)
+        <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+        waitVanish(<img src="1383318741533.png" />)
+<span class="cmt">#-------------F3 New slip fix-----------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974315983.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.F3)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="kw">if</span> exists(Pattern(<img src="1383594081892.png" />).similar(<span class="dig">0.97</span>)):
+        <span class="skw">click</span>(Pattern(<img src="1383594081892.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="cmt">#click(Pattern("1383594107931.png").similar(0.96))
+</span>    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>))
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+<span class="cmt">#-------------Slip created from slip trigger is not in edit mode--------------#
+</span>    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'l'</span>)
+    <span class="skw">wait</span>(<img src="1382981875637.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1382982572447.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">5</span>):
+        TABFunction.tab(x)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="1382982572447.png" />)
+    <span class="skw">type</span>(Key.F4, KeyModifier.ALT)
+    waitVanish(<img src="1382981875637.png" />)
+    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">"t"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"s. robertson"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test task"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test client"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test reference"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+
+    <span class="skw">wait</span>(Pattern(<img src="1382986095641.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="1382986163868.png" />).similar(<span class="dig">0.92</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1382986260841.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(<img src="1382986260841.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+<span class="cmt">#--------------Slip value not incrementing with timer running------------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    keyDown(Key.SHIFT)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">7</span>):
+        TABFunction.tab(x)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">'500'</span>)
+    <span class="skw">type</span>(Key.F5)
+    <span class="skw">wait</span>(<span class="dig">1.98</span>)
+    <span class="skw">type</span>(Key.F5)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">6</span>):
+        TABFunction.tab(x)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="1382988512782.png" />).similar(<span class="dig">0.89</span>), <span class="dig">30</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1382988538854.png" />).similar(<span class="dig">0.93</span>))
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(Pattern(<img src="1382988512782.png" />).similar(<span class="dig">0.89</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(<img src="1382990450356.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="1382990450356.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+<span class="cmt">#-------------Unable to turn off timer on duplciated slip----------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">"t"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"s. robertson"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test task"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test client"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test reference"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+
+    <span class="kw">if</span> exists(<img src="1382991372281.png" />):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(<img src="1382991372281.png" />)
+    <span class="skw">type</span>(<span class="str">'d'</span>, KeyModifier.CTRL + KeyModifier.SHIFT )
+
+    <span class="skw">type</span>(Key.F5)
+    <span class="kw">assert</span> exists(Pattern(<img src="1382991809604.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+
+    onAppear(<img src="1382991753319.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="1382991753319.png" />)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+    <span class="skw">type</span>(Key.F5)
+
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1382991834147.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(<img src="1382992190040.png" />, <span class="skw">type</span>(<span class="str">'y'</span>))
+    waitVanish(<img src="1382992190040.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+<span class="cmt">#--------------Slip end date does not update when timer is enabled----------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'10/27/2013'</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">5</span>):
+        TABFunction.tab(x)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<img src="1383319791300.png" />, <span class="dig">30</span>)
+    <span class="kw">assert</span> <span class="kw">not</span> exists(Pattern(<img src="1382993945499.png" />).similar(<span class="dig">0.98</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(<img src="1382994275015.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="1382994275015.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+<span class="cmt">#----------------Abbreviation does not expand properly------------------------#
+</span>    <span class="skw">type</span>(<span class="str">'p'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'a'</span>)
+    <span class="skw">wait</span>(<img src="1383059635126.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1383059706627.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'MTG'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'Meeting with Dev'</span>)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="1383059706627.png" />)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(<img src="1383059635126.png" />)
+    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">7</span>):
+        TABFunction.tab(x)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'quick MTG brown fox'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1383075680662.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(<img src="1383076105436.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="1383076105436.png" />)
+
+<span class="cmt">#---------------Tabbing to slip start date triggers edit mode---------------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    <span class="kw">assert</span> <span class="kw">not</span> exists(Pattern(<img src="1383082607547.png" />).similar(<span class="dig">0.95</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>))
+
+<span class="cmt">#----------------Slips default to no charge not working-----------------#
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'i'</span>)
+    <span class="skw">wait</span>(<img src="1383319956203.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="Setupthisrec.png" />, <span class="dig">30</span>)
+    paste(startTime.strftime(<span class="str">'SR1 client %Y_%m_%d %H_%M_%S'</span>))
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="InformationC.png" />, <span class="dig">30</span>)
+    keyDown(Key.SHIFT)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">7</span>):
+        TABFunction.tab(x)
+    keyUp(Key.SHIFT)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1383163231858.png" />).similar(<span class="dig">0.91</span>))
+
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    waitVanish(<img src="1383163064291.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">4</span>):
+        TABFunction.tab(x)
+    <span class="skw">type</span>(<span class="str">'SR1'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1383164778846.png" />).similar(<span class="dig">0.95</span>))
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(<img src="1383164817316.png" />, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(<img src="1383164817316.png" />)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+<span class="cmt">#------------------Flat rate slips load as Hourly----------------------#
+</span>    <span class="skw">type</span>(<span class="str">'m'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382973444519.png" />).similar(<span class="dig">0.93</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(Pattern(<img src="1382974350414.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">"t"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"s. robertson"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test task"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test client"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test reference"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">15</span>):
+        TABFunction.tab(x)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'f'</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+
+    <span class="kw">if</span> exists(<img src="1382991372281.png" />):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(<img src="1382991372281.png" />)
+
+
+    <span class="skw">type</span>(Key.PAGE_UP)
+    <span class="kw">assert</span> <span class="kw">not</span> exists(Pattern(<img src="1383166514704.png" />).similar(<span class="dig">0.95</span>))
+    <span class="skw">type</span>(Key.PAGE_DOWN)
+    <span class="kw">assert</span> exists(Pattern(<img src="1383166514704.png" />).similar(<span class="dig">0.95</span>))
+<span class="cmt">#-----------------Slip End Date doesnt save when using + to increment---------------#
+</span>    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">8</span>):
+        TABFunction.tab(x)
+    paste(<span class="str">'10/29/2013'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">'10/29/2013'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.PAGE_UP)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.PAGE_DOWN)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">9</span>):
+        TABFunction.tab(x)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'+'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.PAGE_UP)
+    <span class="skw">type</span>(Key.PAGE_DOWN)
+    <span class="kw">assert</span> exists(Pattern(<img src="1383249002334.png" />).similar(<span class="dig">0.96</span>))
+
+<span class="cmt">#----------------------back Space doesnt trigger Edit Mode----------------#
+</span>    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, <span class="dig">7</span>):
+        TABFunction.tab(x)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    <span class="kw">assert</span> exists(Pattern(<img src="1383250366771.png" />).similar(<span class="dig">0.95</span>))
+
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(<img src="1383251226581.png" />):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+        waitVanish(<img src="1383249064698.png" />)
+    waitVanish(<img src="1383249064698.png" />)
+
+
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="cmt">#SR1_2014_defect_fixes()</span>
+</pre>
+</body>
+</html>

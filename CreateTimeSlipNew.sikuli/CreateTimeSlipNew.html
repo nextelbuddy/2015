@@ -1,0 +1,189 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateTimeSlipNew.sikuli\CreateTimeSlipNew.sikuli</h2> <a href="CreateTimeSlipNew.sikuli\CreateTimeSlipNew.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+
+    <span class="cmt">#This script is a basic slip entry meant for the smoke test or other simple quick tests.
+</span>    <span class="cmt">#if you need more expanded functionality then please use the CreateTimeSlipNewComplete script
+</span>    <span class="cmt">#in conjunction with expanded functionality
+</span>
+
+<span class="cmt">#slip entry method below
+</span>
+
+<span class="cmt">#RestorePrefs.restore_prefs()
+</span><span class="cmt">#ClearSlips.clear_slips()
+</span><span class="kw">def</span> create_timeslip():
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">click</span>(<img src="1349207959804-2.png" />)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"t"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"s. robertson"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test task"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test client"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test reference"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli extra"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"a"</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"6/23/2004"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"6/24/2004"</span>)
+    <span class="str">"""
+    type("c")
+    click("1349292786849-2.png")
+    click("1349292832471-2.png")
+    type(Key.TAB)
+    type(Key.TAB)
+    type(Key.TAB)
+    type(Key.ENTER)
+    """</span>
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"00:30:00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+        <span class="cmt">#change the below value to test assertion, correct value should be 1:00:00
+</span>    paste(<span class="str">"1:00:00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+        <span class="cmt">#Next line starts Timer
+</span>    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">2.05</span>)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">type</span>(Key.TAB)
+        <span class="cmt">#Next line enables and disables Hold and recurring
+</span>    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+        <span class="cmt">#next section is setting rate source and levels
+</span>    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"225.00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+        <span class="cmt">#Next section begins Markup and Attachments
+</span>    <span class="skw">click</span>(Pattern(<img src="MahAditstmen-3.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">click</span>(Pattern(<img src="Attadrnents-2.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"5.00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"2.00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"0:15:59"</span>)
+    <span class="skw">click</span>(<img src="01559-3.png" />)
+    <span class="skw">click</span>(<img src="1Starttime-2.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"s"</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">click</span>(Pattern(<img src="MahAditstmen-3.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">click</span>(Pattern(<img src="Attadrnents-2.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="cmt">#assert exists(Pattern("22513-1.png").similar(0.95))
+</span>    keyDown(Key.CTRL)
+    <span class="skw">type</span>(Key.F4)
+    keyUp(Key.CTRL)
+</pre>
+</body>
+</html>

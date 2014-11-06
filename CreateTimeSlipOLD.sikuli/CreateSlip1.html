@@ -1,0 +1,211 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateTimeSlip.sikuli\CreateSlip1.sikuli</h2> <a href="CreateTimeSlip.sikuli\CreateSlip1.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">def</span> old_TSslip_entry():
+    keyDown(Key.CTRL)
+    keyDown(Key.SHIFT)
+    <span class="skw">click</span>(<img src="1349207959804.png" />)
+    keyUp(Key.CTRL)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.RIGHT)
+    <span class="skw">type</span>(Key.LEFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"s. robertson"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test task"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test client"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test reference"</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"sikuli extra"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"sikuli test description and sta "</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">"Sikuli prompt 1"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">"Sikuliprompt 2"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">"Sikuli prompt 3"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"6/23/2004"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">"6/24/2004"</span>)
+    <span class="skw">type</span>(<span class="str">"c"</span>)
+    <span class="skw">click</span>(<img src="1349292786849.png" />)
+    <span class="skw">click</span>(<img src="1349292832471.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"00:30:00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="str">"""change the below value to test assertion, correct value should be 1:00:00"""</span>
+    paste(<span class="str">"1:00:00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="str">"""Next line starts Timer"""</span>
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">2.2</span>)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">wait</span>(<span class="dig">.1</span>)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="str">"""Next line enables and disables Hold"""</span>
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.UP)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.DOWN)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="str">"""Next section begins Markup and Attachments"""</span>
+    <span class="skw">click</span>(<img src="lvlarkuuAdiu.png" />)
+    <span class="skw">click</span>(<img src="Attachments.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"5.00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"2.00"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"0:15:59"</span>)
+    <span class="skw">click</span>(<img src="1349297553370.png" />)
+    <span class="skw">click</span>(<img src="Starttime.png" />)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="str">"""click("UnUlf-1.png")"""</span>
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">"s"</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">click</span>(<img src="MarkuDAdiusl.png" />)
+    <span class="skw">click</span>(<img src="Attachments-1.png" />)
+    <span class="str">"""
+    click("22513Value.png")
+    if not exists("SlipValueBil.png"): exit(1)
+    else: exit(0)
+    click("1349459692282.png")"""</span>
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    keyDown(Key.CTRL)
+    <span class="skw">type</span>(Key.F4)
+    keyUp(Key.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">click</span>(<img src="Sis.png" />)
+    keyDown(Key.CTRL)
+    keyDown(Key.SHIFT)
+    <span class="skw">click</span>(<img src="Tin.png" />)
+    keyUp(Key.CTRL)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">if</span> <span class="kw">not</span> exists(<img src="185195994225-1.png" />): exit(<span class="dig">1</span>)
+    <span class="kw">else</span>: exit(<span class="dig">0</span>)
+
+
+
+
+
+
+
+old_TSslip_entry()
+</pre>
+</body>
+</html>

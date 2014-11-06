@@ -1,0 +1,280 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Abbreviations.sikuli\Abbreviations.sikuli</h2> <a href="Abbreviations.sikuli\Abbreviations.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+<span class="kw">import</span> mySettings
+
+
+
+<span class="kw">def</span> insert_prompt():
+    <span class="skw">type</span>(<span class="str">'i'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1406647585593.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Prompt 1'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="1406647585593.png" />)
+    <span class="skw">type</span>(<span class="str">'i'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1406647585593.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Prompt 2'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="1406647585593.png" />)
+    <span class="skw">type</span>(<span class="str">'i'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1406647585593.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'Prompt 3'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(<img src="1406647585593.png" />)
+
+
+
+
+
+
+<span class="kw">def</span> abbreviations():
+    <span class="skw">type</span>(<span class="str">"p"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"a"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="1352152087090.png" />).similar(<span class="dig">0.98</span>), FOREVER)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="henenteringt.png" />).similar(<span class="dig">0.94</span>))
+    paste(<span class="str">"STA"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"Sikuli %Sikuli 1st prompt% Test %Sikuli 2nd prompt% Abbreviations %Sikuli 3rd prompt%"</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1406318580624.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'k'</span>, KeyModifier.ALT)
+    paste(<span class="str">'ATE'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'Abbreviation to Edit'</span>)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406320561116.png" />).similar(<span class="dig">0.93</span>))
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1406320225243.png" />, <span class="dig">30</span>)
+    paste(<span class="str">'ATD'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    paste(<span class="str">'Abbreviation to Delete'</span>)
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">assert</span> exists(<img src="1406320672782.png" />)
+    <span class="skw">type</span>(<span class="str">'STA'</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406572764670.png" />).similar(<span class="dig">0.96</span>))
+    <span class="skw">type</span>(<span class="str">'o'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1406572829721.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.PAGE_UP)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406573058538.png" />).similar(<span class="dig">0.93</span>))
+    <span class="skw">type</span>(Key.PAGE_DOWN)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406573089449.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">type</span>(Key.PAGE_UP, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406573058538.png" />).similar(<span class="dig">0.93</span>))
+    <span class="skw">type</span>(Key.PAGE_DOWN, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406573089449.png" />).similar(<span class="dig">0.97</span>))
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="1406573089449.png" />).similar(<span class="dig">0.97</span>))
+    <span class="cmt">#insert prompt dialog
+</span>    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="henenteringt.png" />).similar(<span class="dig">0.94</span>))
+    paste(<span class="str">"PMT"</span>)
+    insert_prompt()
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="henenteringt.png" />).similar(<span class="dig">0.94</span>))
+    <span class="cmt">#Start of testing for Personal Page
+</span>    <span class="skw">type</span>(Key.F6)
+    <span class="kw">if</span> exists(<img src="1406573695241.png" />):
+        <span class="skw">type</span>(Key.ENTER)
+        waitVanish(<img src="1406573695241.png" />)
+        <span class="skw">wait</span>(<img src="1406573745174.png" />, <span class="dig">30</span>)
+        <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+        paste(os.path.join(<span class="str">r'C:\tssmoketest'</span>, Settings.Version, ))
+        <span class="skw">type</span>(Key.ENTER)
+        paste(<span class="str">'TSSMOKETEST1.ABR'</span>)
+        <span class="skw">wait</span>(<span class="dig">.5</span>)
+        <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+        waitVanish(<img src="1406573745174.png" />)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406580874300.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="henenteringt.png" />).similar(<span class="dig">0.94</span>))
+    paste(<span class="str">'PER'</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">'Personal Abbreviations Test'</span>)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> <span class="kw">not</span> exists(Pattern(<img src="1406655877255.png" />).similar(<span class="dig">0.97</span>))
+    <span class="kw">assert</span> exists(Pattern(<img src="1406655915709.png" />).similar(<span class="dig">0.98</span>))
+    <span class="skw">type</span>(<span class="str">'b'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'i'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406656564531.png" />).similar(<span class="dig">0.98</span>))
+    <span class="skw">type</span>(<span class="str">'i'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'u'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.RIGHT)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406656636742.png" />).similar(<span class="dig">0.98</span>))
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'u'</span>, KeyModifier.CTRL)
+    <span class="cmt">#type(Key.DELETE)
+</span>    <span class="skw">type</span>(Key.RIGHT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.INSERT, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.BACKSPACE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(<span class="str">'PTITEST'</span>)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406661282731.png" />).similar(<span class="dig">0.98</span>))
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="henenteringt.png" />).similar(<span class="dig">0.94</span>))
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<img src="1406573745174.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    paste(<span class="str">'c:'</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    paste(os.path.join(<span class="str">r'C:\tssmoketest'</span>, Settings.Version, ))
+    <span class="skw">type</span>(Key.ENTER)
+    paste(<span class="str">'TSSMOKETEST2.ABR'</span>)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="1406662708088.png" />):
+        <span class="skw">type</span>(<span class="str">'y'</span>)
+        waitVanish(<img src="1406573745174.png" />)
+    <span class="cmt">#special character option
+</span>    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(Pattern(<img src="1407855586577.png" />).similar(<span class="dig">0.89</span>))
+    <span class="cmt">#switch back to DB tab 
+</span>    <span class="skw">type</span>(Key.F6)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406661529020.png" />).similar(<span class="dig">0.96</span>))
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'ATD'</span>)
+    <span class="skw">type</span>(Key.DELETE, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1406320415819.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'y'</span>)
+    waitVanish(<img src="1406320415819.png" />)
+    <span class="kw">assert</span> exists(Pattern(<img src="1406663903595.png" />).similar(<span class="dig">0.93</span>))
+
+    keyDown(Key.SHIFT)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    keyUp(Key.SHIFT)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(Key.ENTER)
+
+
+<span class="cmt">#abbreviations()</span>
+</pre>
+</body>
+</html>

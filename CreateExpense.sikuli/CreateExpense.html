@@ -1,0 +1,143 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>CreateExpense.sikuli\CreateExpense.sikuli</h2> <a href="CreateExpense.sikuli\CreateExpense.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+
+<span class="kw">def</span> create_expense(id):
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">"o"</span>)
+    <span class="skw">type</span>(<span class="str">"n"</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="IZI1IClassif.png" />)
+    paste (<span class="str">"Sikuli Test Expense "</span> + str(id))
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.ENTER)
+    paste(<span class="str">"Sikuli Test Expense Full Name"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"10"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"20"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"30"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"40"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"50"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"60"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"70"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"80"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"90"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"100"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"110"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"120"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"130"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"140"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"150"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"160"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"170"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"180"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"190"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"200"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"1"</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.TAB)
+    paste(<span class="str">"Default Sikuli Description"</span>)
+    <span class="skw">wait</span>(Pattern(<img src="DefaultSikul.png" />).similar(<span class="dig">0.97</span>))
+    <span class="skw">type</span>(<span class="str">"s"</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1351792567535.png" />).similar(<span class="dig">0.98</span>))
+    keyDown(Key.CTRL)
+    <span class="skw">type</span>(Key.F4)
+    keyUp(Key.CTRL)
+</pre>
+</body>
+</html>
