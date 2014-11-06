@@ -1,0 +1,610 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Toolbox.sikuli\Toolbox.sikuli</h2> <a href="Toolbox.sikuli\Toolbox.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> IMGToolbox
+<span class="kw">import</span> ARDescription
+
+<span class="kw">def</span> DownXtimes(pDown):
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, pDown+<span class="dig">1</span>):
+        <span class="skw">type</span>(Key.DOWN)
+
+
+<span class="kw">def</span> Navigatepage(pPagecount,pForward):
+    <span class="kw">if</span> pForward==<span class="str">'True'</span>:
+        <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, pPagecount):
+            <span class="skw">type</span>(Key.F6)
+    <span class="kw">else</span>:
+        <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, pPagecount):
+            keyDown(Key.SHIFT)
+            <span class="skw">type</span>(Key.F6)
+            keyUp(Key.SHIFT)
+
+
+<span class="kw">def</span> Navigatelist(pListcount,pDown):
+    <span class="kw">if</span> pDown==<span class="str">'True'</span>:
+        <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, pListcount):
+            <span class="skw">type</span>(Key.DOWN)
+    <span class="kw">else</span>:
+        <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, pListcount):
+            <span class="skw">type</span>(Key.UP)
+
+<span class="cmt">#------------------------------------------------------------------------------------#
+</span><span class="cmt"># 
+</span><span class="kw">def</span> create_test_client(pName):
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(<span class="str">'i'</span>)
+    <span class="skw">wait</span>(<img src="1407956749298.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1407956797812.png" />, <span class="dig">30</span>)
+    paste(pName)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(Pattern(<img src="1407957845265.png" />).similar(<span class="dig">0.90</span>), <span class="dig">30</span>)
+    <span class="kw">if</span> exists(<img src="1408567408763.png" />):
+        <span class="skw">type</span>(Key.ENTER)
+
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    waitVanish(<img src="1407957983846.png" />)
+
+
+
+
+
+<span class="cmt">#------------------System Related tasks------------------------------------#
+</span>
+<span class="kw">def</span> Backup_DB(pDBLocation):
+    <span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'b'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Thisprocessc-4.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(<img src="SaveasmeSage.png" />, <span class="dig">30</span>)
+    <span class="cmt">#('- Saving file path and name')
+</span>    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDBLocation)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.ALT)
+    <span class="kw">if</span> exists(<img src="Abackupfilea-1.png" />):
+        <span class="skw">type</span>(<span class="str">'y'</span>, KeyModifier.ALT)
+    <span class="skw">wait</span>(Pattern(<img src="Thebackupofy-2.png" />).similar(<span class="dig">0.89</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Thebackupofy-2.png" />).similar(<span class="dig">0.89</span>))
+
+
+
+<span class="kw">def</span> Restore_DB(pDBLocation):
+    <span class="cmt">#('- Restoring PDF Reprint Bills Defect Backup')
+</span>    <span class="skw">type</span>(<span class="str">'f'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(<span class="str">'r'</span>)
+    <span class="skw">wait</span>(Pattern(<img src="Choosewheret-1.png" />).similar(<span class="dig">0.91</span>), <span class="dig">30</span>)
+    paste(pDBLocation)
+    <span class="skw">type</span>(<span class="str">'u'</span>, KeyModifier.ALT)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">wait</span>(Pattern(<img src="SageTimeslip-3.png" />).similar(<span class="dig">0.91</span>), <span class="dig">120</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(Pattern(<img src="Choosewheret-1.png" />).similar(<span class="dig">0.91</span>))
+
+
+<<<<<<< HEAD
+<span class="cmt">#---------------------------------Slip Related Tasks------------------------------------------#
+=======
+<span class="cmt">#---------------------------------Slip Rerlated Tasks------------------------------------------#
+>>>>>>> origin/master
+</span><span class="kw">def</span> Create_Time_Slip(pTK,pAct,pClient,pRef,pExtra,pDescription,pStartDate,pEndDate,pTimeEst,pTimeSpent,pRateValue):
+    <span class="skw">wait</span>(<img src="1408986911027.png" />)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<img src="1408981839050.png" />, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pTK)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pAct)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pRef)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pExtra)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pDescription)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pStartDate)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pEndDate)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pTimeEst)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pTimeSpent)
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">0</span>, <span class="dig">7</span>):
+        <span class="skw">type</span>(Key.TAB)
+    paste(pRateValue)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+
+
+
+
+
+
+
+
+<span class="cmt">#-------------------AR Related Tasks--------------------------------------#
+</span>
+
+<span class="kw">def</span> ar_list():
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+
+
+
+<span class="kw">def</span> payment_entry(pType,pCheckT,pCheckNo,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pCheckT)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pCheckNo)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(Key.SPACE)
+    <span class="skw">wait</span>(IMGToolbox.IMG_bank_dep, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(IMGToolbox.IMG_bank_dep)
+    <span class="skw">wait</span>(IMGToolbox.IMG_bank_dep, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(IMGToolbox.IMG_bank_dep)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pAmount)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+
+
+
+
+
+<span class="kw">def</span> credit_entry(pType,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pAmount)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="kw">def</span> writeoff_entry(pType,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pAmount)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_writeoff_applied_error)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_writeoff_applied_error)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(IMGToolbox.IMG_do_want_save_ar):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+
+
+
+
+
+
+<span class="kw">def</span> refund_entry(pType,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pAmount)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_refund_assign_message)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_refund_assign_message)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(IMGToolbox.IMG_do_want_save_ar):
+        <span class="skw">type</span>(<span class="str">'n'</span>)
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+
+
+
+
+
+
+<span class="kw">def</span> invoice_entry(pType,pClient,pDate,pDescription,pInvoice,pFees,pFTax,pCosts,pCTax,pInterest,pApply):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(Key.TAB + Key.TAB)
+    <span class="skw">type</span>(pInvoice)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pFees)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pFTax)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pCosts)
+    <span class="skw">type</span>(Key.TAB)
+    paste(pCTax)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pInterest)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(IMGToolbox.IMG_ar_money_suspense):
+        <span class="skw">type</span>(pApply)
+        waitVanish(IMGToolbox.IMG_ar_money_suspense)
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+
+<span class="kw">def</span> reverse_entry(pType,pClient,pDate,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">if</span> exists(IMGToolbox.IMG_ar_reverse_empty):
+        <span class="skw">type</span>(Key.ENTER)
+        waitVanish(IMGToolbox.IMG_ar_reverse_empty)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(IMGToolbox.IMG_do_want_save_ar, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+
+<span class="kw">def</span> transfer_entry(pType,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_transfer_assign_empty)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_transfer_assign_empty)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pAmount)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_transfer_assign_empty)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_transfer_assign_empty)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(IMGToolbox.IMG_do_want_save_ar, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="kw">def</span> discount_entry(pType,pClient,pDate,pAmount,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_value_too_low)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_value_too_low)
+    paste(pAmount)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_trans_fully_applied)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_trans_fully_applied)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(IMGToolbox.IMG_do_want_save_ar, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="kw">def</span> special_entry(pType):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_special_credit_error)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_special_credit_error)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_combo_payment)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="kw">def</span> increase_details_entry(pType,pClient,pDate,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_invoice_details_validate_save_yes_invoice)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_invoice_details_validate_save_yes_invoice)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(IMGToolbox.IMG_do_want_save_ar, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+
+
+
+
+
+<span class="kw">def</span> decrease_details_entry(pType,pClient,pDate,pDescription):
+    <span class="skw">type</span>(<span class="str">'t'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_list, <span class="dig">30</span>)
+    <span class="skw">type</span>(<span class="str">'n'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_entry, <span class="dig">30</span>)
+    <span class="skw">type</span>(pType)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pClient)
+    <span class="skw">type</span>(Key.ENTER)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(pDate)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="skw">type</span>(<span class="str">'c'</span>)
+    <span class="skw">wait</span>(IMGToolbox.IMG_ar_calendar, <span class="dig">30</span>)
+    <span class="skw">type</span>(Key.ESC)
+    waitVanish(IMGToolbox.IMG_ar_calendar)
+    <span class="skw">type</span>(Key.TAB)
+    <span class="skw">type</span>(<span class="str">'a'</span>, KeyModifier.CTRL)
+    <span class="skw">type</span>(Key.DELETE)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    paste(pDescription)
+    <span class="skw">type</span>(<span class="str">'s'</span>, KeyModifier.CTRL)
+    <span class="skw">wait</span>(<span class="dig">.5</span>)
+    <span class="kw">assert</span> exists(IMGToolbox.IMG_ar_invoice_details_validate_save_yes_invoice)
+    <span class="skw">type</span>(Key.ENTER)
+    waitVanish(IMGToolbox.IMG_ar_invoice_details_validate_save_yes_invoice)
+    <span class="skw">type</span>(Key.F4, KeyModifier.CTRL)
+    onAppear(IMGToolbox.IMG_do_want_save_ar, <span class="skw">type</span>(<span class="str">'n'</span>))
+    waitVanish(IMGToolbox.IMG_ar_id_new)
+    <span class="skw">type</span>(<span class="str">'w'</span>, KeyModifier.CTRL)
+</pre>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>TS_Installation.sikuli\TS Installer.sikuli</h2> <a href="TS_Installation.sikuli\TS Installer.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span>*
+<span class="kw">import</span> mySettings
+<span class="kw">import</span> Installer
+<span class="kw">import</span> logging
+<span class="kw">import</span> os
+<span class="kw">import</span> subprocess
+<span class="kw">import</span> shutil
+<span class="cmt">#import Alpha_Beta
+</span><span class="kw">import</span> logging
+reload(logging)
+<span class="kw">import</span> datetime
+SCR0 = Screen(<span class="dig">0</span>)
+SCR1 = Screen(<span class="dig">1</span>)
+startTime = datetime.datetime.now()
+
+
+
+<span class="cmt"># setup logging and folder paths
+</span><span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Logs'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Logs'</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Reports'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Reports'</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(<span class="str">r'C:\tssmoketest\Backups'</span>):
+    os.makedirs(<span class="str">r'C:\tssmoketest\Backups'</span>)
+
+<span class="cmt">#--------------------------------------------------------#
+</span>
+logging.basicConfig(filename=os.path.join(<span class="str">r'C:\tssmoketest'</span>, <span class="str">'Logs'</span>, startTime.strftime(<span class="str">'InstallerTestLog %Y_%m_%d %H_%M_%S.log'</span>)), level=logging.DEBUG, format=<span class="str">'%(message)s'</span>, filemode=<span class="str">'w'</span>)
+<span class="cmt">#logging.basicConfig(filename=os.path.join(r"C:\tssmoketest", 'Logs', "SmokeTestLog.log"), level=logging.DEBUG, format='%(message)s', filemode='w')
+</span><span class="cmt"># Level = DEBUG, INFO, WARNING, ERROR, CRITICAL
+</span>
+<span class="cmt">#--------------------------------------------------------#
+</span>
+
+<span class="cmt"># stamp start time
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(startTime.strftime(<span class="str">"Started at: %Y-%m-%d %H:%M:%S"</span>))
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+
+<span class="cmt">#--------------------------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#first part of smoke test is deleting prior installation
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'Timeslips_Removal_Begin'</span>)
+<span class="kw">if</span> os.path.exists(os.path.join(<span class="str">r'C:\tssmoketest'</span>, Settings.Version)):
+    shutil.rmtree(os.path.join(<span class="str">r'C:\tssmoketest'</span>, Settings.Version))
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'Timeslips_Removal_End'</span>)
+<span class="cmt">#--------------------------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#first part of smoke test is installation by calling the installer function
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'Timeslips_installer_Begin'</span>)
+
+<span class="kw">if</span> Settings.InstallPhase == Settings.tInstallPhaseE[<span class="dig">0</span>]:
+    Installer.alpha_beta_installer()
+<span class="kw">elif</span> Settings.InstallType == Settings.tInstallTypesE[<span class="dig">1</span>]:
+    Installer.single_installer()
+<span class="kw">elif</span> Settings.InstallType == Settings.tInstallTypesE[<span class="dig">0</span>]:
+    Installer.cd_installer()
+
+
+
+<span class="cmt">#--------------------------------------------------------#
+</span>logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+    <span class="cmt">#End of installation
+</span>logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'Timeslips_installer_End'</span>)
+<span class="cmt">#----------------------------------------#
+</span>endTime = datetime.datetime.now()
+logging.debug(<span class="str">' '</span>)
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+logging.debug(endTime.strftime(<span class="str">"Stopped at: %Y-%m-%d %H:%M:%S"</span>))
+logging.debug(<span class="str">'- - - - - - - - - - - - - - -'</span>)
+
+elapsedTime = endTime - startTime
+logging.debug(<span class="str">"Elapsed:    %s"</span> %elapsedTime)
+
+exit()
+</pre>
+</body>
+</html>
